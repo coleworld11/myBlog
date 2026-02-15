@@ -98,7 +98,7 @@ theme: burgerking
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/zmz-cole/myBlog.git
+  repo: https://github.com/mz-789/myBlog.git
   branch: main
 
 # Gitalk
