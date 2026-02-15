@@ -100,7 +100,6 @@ deploy:
   type: git
   repo: https://github.com/mz-789/myBlog.git
   branch: main
-
 # Gitalk
 Gitalk:
   enable: false
