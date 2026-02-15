@@ -1,0 +1,10 @@
+<div class="wrapper">
+    <% if(page) { %>
+      <% page.posts.each(function(article, index){%>
+        <%- partial('./_partial/article', { item: article, index: true }) %>
+       <% if(index !== page.posts.length - 1) { %>
+      <% } %>
+      <% }) %>
+    <% } %>
+</div>
+<%- include('./_partial/pagination.ejs'); -%>
