@@ -11,7 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Common Commands
 
 ```bash
-pnpm server         # 开发服务器 http://localhost:4000/myBlog/
+hexo server         # 开发服务器 http://localhost:4000/myBlog/（在此环境 pnpm server 启动失败，直接用 hexo 二进制）
 pnpm build          # 生成 public/  (hexo generate)
 pnpm clean          # 清 public/ 和 db.json（改配置 / 主题文件后必跑）
 pnpm deploy         # 通过 hexo-deployer-git 推（CI 不走此路径）
@@ -21,7 +21,7 @@ pnpm exec hexo new draft "草稿标题"    # 草稿 -> source/_drafts/
 pnpm exec hexo new page xxx            # 独立页 -> source/xxx/
 ```
 
-**重要**：修改 `_config.yml`、主题文件或 CSS 变量后，dev server 需要停掉重启（Ctrl+C → `pnpm clean && pnpm server`）。Hexo server 会缓存 build 到内存，热 reload 只覆盖正文 md，不覆盖主题/配置变更。
+**重要**：修改 `_config.yml`、主题文件或 CSS 变量后，dev server 需要停掉重启（Ctrl+C → `pnpm clean && hexo server`）。Hexo server 会缓存 build 到内存，热 reload 只覆盖正文 md，不覆盖主题/配置变更。
 
 ## Architecture
 

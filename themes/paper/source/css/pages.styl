@@ -7,12 +7,15 @@
 
 .page-head h1
   font-size 2rem
-  font-weight 700
+  font-weight 600
+  color var(--fg)
+  letter-spacing 0.08em
   margin 0 0 var(--sp-2)
 
 .page-head .page-sub
   color var(--fg-muted)
-  font-size 14px
+  font-size 0.95rem
+  letter-spacing 0.04em
 
 // ---- Archive / timeline ----
 .archive
@@ -84,36 +87,90 @@
   color var(--accent)
 
 // ---- Tag / Category grids ----
-.taxonomy-grid
-  display grid
-  grid-template-columns repeat(auto-fill, minmax(180px, 1fr))
-  gap var(--sp-3)
-  max-width var(--layout-width)
+// ---- Category index (book-index style) ----
+// Clean single-column list. Hover: page floats slightly right with
+// a paper-white surface revealing underneath — like turning a page.
+.category-index
+  max-width 600px
   margin 0 auto
-
-.taxonomy-item
   display flex
-  align-items center
+  flex-direction column
+  gap var(--sp-2)
+
+.category-index-item
+  display flex
   justify-content space-between
-  padding var(--sp-4) var(--sp-5)
-  border 1px solid var(--border)
+  align-items center
+  padding var(--sp-4) var(--sp-6)
   border-radius var(--radius-md)
   color var(--fg)
-  transition all var(--transition-base)
+  background transparent
+  transition background-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base)
 
-.taxonomy-item:hover
-  border-color var(--accent)
-  color var(--accent)
+.category-index-item:hover
+  background var(--bg-elevated)
+  transform translateX(6px)
+  box-shadow 0 4px 12px rgba(0, 0, 0, 0.04)
 
-.taxonomy-name
+.category-index-item .name
+  font-size 1.05rem
   font-weight 500
 
-.taxonomy-count
-  font-size 13px
-  color var(--fg-muted)
+.category-index-item .count
+  color var(--fg-subtle)
+  font-family var(--font-mono)
+  font-size 0.9rem
   font-variant-numeric tabular-nums
 
-.taxonomy-item:hover .taxonomy-count
+.category-index-item .count::before
+  content '('
+.category-index-item .count::after
+  content ')'
+
+// ---- Tag cloud (pill style) ----
+.tag-cloud
+  max-width 800px
+  margin 0 auto
+  display flex
+  flex-wrap wrap
+  justify-content center
+  gap var(--sp-4)
+
+.tag-cloud a
+  display inline-flex
+  align-items center
+  padding var(--sp-2) var(--sp-5)
+  background var(--bg-elevated)
+  border 1px solid var(--border)
+  border-radius var(--radius-pill)
+  color var(--fg-muted)
+  font-size 0.95rem
+  transition color var(--transition-base), border-color var(--transition-base), background-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base)
+
+.tag-cloud a::before
+  content '#'
+  margin-right 4px
+  color var(--fg-subtle)
+  font-weight 300
+  transition color var(--transition-base)
+
+.tag-cloud a:hover
+  color var(--accent)
+  border-color var(--accent)
+  background var(--accent-bg)
+  transform translateY(-2px)
+  box-shadow 0 4px 12px rgba(217, 119, 87, 0.12)
+
+.tag-cloud a:hover::before
+  color var(--accent)
+
+.tag-cloud a .count
+  margin-left var(--sp-2)
+  font-size 0.8rem
+  color var(--fg-subtle)
+  font-variant-numeric tabular-nums
+
+.tag-cloud a:hover .count
   color var(--accent)
 
 // ---- Single taxonomy (tag/category) — post list ----

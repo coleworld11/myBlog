@@ -17,11 +17,11 @@
     <div class="page-sub">共 <%= site.tags.length %> 个标签</div>
   </div>
   <% if (site.tags.length) { %>
-    <div class="taxonomy-grid">
+    <div class="tag-cloud">
       <% site.tags.sort('-length').each(function (tag) { %>
-        <a class="taxonomy-item" href="<%- url_for(tag.path) %>">
-          <span class="taxonomy-name"># <%= tag.name %></span>
-          <span class="taxonomy-count"><%= tag.posts.length %></span>
+        <a href="<%- url_for(tag.path) %>">
+          <span class="name"><%= tag.name %></span>
+          <span class="count"><%= tag.posts.length %></span>
         </a>
       <% }) %>
     </div>

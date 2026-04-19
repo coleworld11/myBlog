@@ -17,11 +17,11 @@
     <div class="page-sub">共 <%= site.categories.length %> 个分类</div>
   </div>
   <% if (site.categories.length) { %>
-    <div class="taxonomy-grid">
+    <div class="category-index">
       <% site.categories.sort('-length').each(function (cat) { %>
-        <a class="taxonomy-item" href="<%- url_for(cat.path) %>">
-          <span class="taxonomy-name"><%= cat.name %></span>
-          <span class="taxonomy-count"><%= cat.posts.length %></span>
+        <a href="<%- url_for(cat.path) %>" class="category-index-item">
+          <span class="name"><%= cat.name %></span>
+          <span class="count"><%= cat.posts.length %></span>
         </a>
       <% }) %>
     </div>
