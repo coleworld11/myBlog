@@ -10,7 +10,7 @@
 
 ```bash
 pnpm install        # 安装依赖（首次）
-hexo server         # 本地预览 http://localhost:4000/myBlog/
+pnpm start          # 本地预览 http://localhost:4000/myBlog/
 pnpm build          # 生成静态文件到 public/
 pnpm clean          # 清缓存（改过 _config.yml 或主题文件后必跑）
 ```
@@ -155,7 +155,7 @@ console.log(greet('Mz'));
 
 右上角圆按钮循环三态：**浅色 → 深色 → 跟随系统**。选择写入 `localStorage`，下次直接生效、无闪屏。
 
-调色在 `themes/paper/source/css/variables.styl`，修改颜色后记得 `pnpm clean && hexo server`。
+调色在 `themes/paper/source/css/variables.styl`，修改颜色后记得 `pnpm clean && pnpm start`。
 
 ---
 
