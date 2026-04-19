@@ -1,0 +1,31 @@
+// Code blocks.
+// With site _config.yml highlight.line_number:false + wrap:false + hljs:true,
+// Hexo emits clean <pre><code class="hljs language-xxx">…</code></pre>.
+// The atom-one-dark.css loaded in head.ejs owns the inner background and
+// token colors; here we only provide the outer frame.
+
+.prose pre
+  margin 0
+  padding 0
+  border 1px solid var(--border)
+  border-radius var(--radius-md)
+  overflow hidden
+  background transparent
+  line-height 1.6
+  font-size 13.5px
+
+.prose pre > code
+  display block
+  font-family var(--font-mono)
+  padding var(--sp-5)
+  overflow-x auto
+  font-size inherit
+  line-height inherit
+  // Fallback for code blocks without hljs (e.g. unknown language):
+  background var(--code-bg)
+  color var(--code-fg)
+
+// When atom-one-dark is active, its .hljs rule supplies background/color
+// and we just keep the frame clean.
+.prose pre > code.hljs
+  border-radius 0

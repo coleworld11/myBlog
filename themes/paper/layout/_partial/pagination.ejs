@@ -1,0 +1,36 @@
+<% if (page.total > 1) { %>
+  <nav class="pagination">
+    <% if (page.prev > 0) { %>
+      <a href="<%- url_for(page.prev_link) %>" rel="prev">前 · Prev</a>
+    <% } else { %>
+      <span class="pagination-disabled" style="opacity:0.4">前 · Prev</span>
+    <% } %>
+    <%
+      var total = page.total;
+      var current = page.current;
+      var pages = [];
+      var add = function (n) { if (pages.indexOf(n) === -1) pages.push(n); };
+      add(1);
+      for (var i = current - 1; i <= current + 1; i++) if (i > 1 && i < total) add(i);
+      if (total > 1) add(total);
+      pages.sort(function (a, b) { return a - b; });
+    %>
+    <% var prev = 0; %>
+    <% pages.forEach(function (p) { %>
+      <% if (prev && p - prev > 1) { %>
+        <span class="pagination-ellipsis">…</span>
+      <% } %>
+      <% if (p === current) { %>
+        <span class="pagination-current"><%= p %></span>
+      <% } else { %>
+        <a href="<%- url_for(p === 1 ? config.root : (config.pagination_dir + '/' + p + '/')) %>"><%= p %></a>
+      <% } %>
+      <% prev = p; %>
+    <% }) %>
+    <% if (page.next > 0) { %>
+      <a href="<%- url_for(page.next_link) %>" rel="next">下 · Next</a>
+    <% } else { %>
+      <span class="pagination-disabled" style="opacity:0.4">下 · Next</span>
+    <% } %>
+  </nav>
+<% } %>

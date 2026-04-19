@@ -1,0 +1,23 @@
+<article class="card">
+  <%- partial('article-meta', { post: item }) %>
+  <h2 class="article-title">
+    <a href="<%- url_for(item.path) %>"><%= item.title %></a>
+  </h2>
+  <div class="article-excerpt prose">
+    <% if (item.excerpt) { %>
+      <%- item.excerpt %>
+    <% } else { %>
+      <p><%= strip_html(item.content).substring(0, 140) %>…</p>
+    <% } %>
+  </div>
+  <% if (item.tags && item.tags.length) { %>
+    <div class="chip-list">
+      <% item.tags.each(function (tag) { %>
+        <a class="chip" href="<%- url_for(tag.path) %>"># <%= tag.name %></a>
+      <% }) %>
+    </div>
+  <% } %>
+  <div class="read-more">
+    <a href="<%- url_for(item.path) %>"><%= theme.read_more || '阅读更多 →' %></a>
+  </div>
+</article>

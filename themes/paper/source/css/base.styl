@@ -1,0 +1,65 @@
+// base — html/body scaffolding + global typography
+
+*, *::before, *::after
+  box-sizing border-box
+
+html
+  font-family var(--font-sans)
+  font-size 16px
+  line-height var(--lh-normal)
+  color var(--fg)
+  background var(--bg)
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  text-rendering optimizeLegibility
+
+body
+  margin 0
+  min-height 100vh
+  display flex
+  flex-direction column
+  font-feature-settings 'kern' 1, 'liga' 1, 'calt' 1
+  transition background-color var(--transition-base), color var(--transition-base)
+
+::selection
+  background var(--selection-bg)
+  color var(--fg-heading)
+
+a
+  color inherit
+  text-decoration none
+  transition color var(--transition-base)
+
+a:hover
+  color var(--accent)
+
+h1, h2, h3, h4, h5, h6
+  color var(--fg-heading)
+  font-weight 600
+  line-height var(--lh-tight)
+  margin 0
+
+p
+  margin 0
+
+img
+  max-width 100%
+  height auto
+  display block
+
+button
+  font-family inherit
+  font-size inherit
+  color inherit
+  cursor pointer
+  background none
+  border none
+  padding 0
+
+hr
+  border 0
+  border-top 1px solid var(--border)
+  margin var(--sp-8) 0
+
+input, textarea
+  font-family inherit

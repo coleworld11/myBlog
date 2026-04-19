@@ -1,0 +1,8 @@
+<% if (page.content && /<h[2-4]/.test(page.content)) { %>
+  <aside class="toc">
+    <div class="toc-title">目录</div>
+    <div class="toc-body">
+      <%- toc(page.content, { list_number: false, min_depth: 2, max_depth: 3 }) %>
+    </div>
+  </aside>
+<% } %>

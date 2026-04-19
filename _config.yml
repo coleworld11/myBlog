@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 我的技术博客
+title: Notes by Mz
 subtitle: '技术文章与随笔'
 description: '分享技术，记录生活'
 keywords:
-author: Your Name
+author: Mz
 language: zh-CN
 timezone: 'Asia/Shanghai'
 
@@ -46,11 +46,12 @@ relative_link: false
 future: true
 syntax_highlighter: highlight.js
 highlight:
-  theme: vs2015
-prismjs:
-  preprocess: true
-  line_number: true
-  tab_replace: ''
+  enable: true
+  line_number: false
+  auto_detect: false
+  tab_replace: '  '
+  wrap: false
+  hljs: true
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -93,7 +94,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: burgerking
+theme: paper
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

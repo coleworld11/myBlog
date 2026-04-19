@@ -1,0 +1,20 @@
+<footer class="site-footer">
+  <div class="footer-row">
+    © <%= new Date().getFullYear() %> <%= config.author || config.title %> · Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </div>
+  <% if (theme.busuanzi && theme.busuanzi.enable) { %>
+    <div class="footer-row" id="busuanzi_container_site_pv" style="display:none">
+      本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </div>
+  <% } %>
+</footer>
+
+<% if (theme.highlight && theme.highlight.enable) { %>
+  <script src="<%- url_for('/plugins/highlight/highlight.pack.js') %>"></script>
+  <script>hljs.highlightAll();</script>
+<% } %>
+<% if (theme.busuanzi && theme.busuanzi.enable) { %>
+  <script>document.getElementById('busuanzi_container_site_pv').style.display='';</script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<% } %>
+<script src="<%- url_for('/js/theme-toggle.js') %>"></script>

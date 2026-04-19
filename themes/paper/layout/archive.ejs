@@ -1,0 +1,21 @@
+<div class="page-head">
+  <h1>归档</h1>
+  <div class="page-sub">共 <%= site.posts.length %> 篇文章</div>
+</div>
+
+<div class="archive">
+  <%
+    var currentYear = null;
+    site.posts.sort('-date').each(function (post) {
+      var year = post.date.year();
+      if (year !== currentYear) {
+        currentYear = year;
+  %>
+    <h2 class="archive-year"><%= currentYear %></h2>
+  <% } %>
+    <div class="archive-row">
+      <span class="archive-date"><%= post.date.format('MM.DD') %></span>
+      <a class="archive-title" href="<%- url_for(post.path) %>"><%= post.title %></a>
+    </div>
+  <% }) %>
+</div>

@@ -1,0 +1,11 @@
+<div class="article-meta-top">
+  <% if (post.date) { %>
+    <time datetime="<%= post.date.toISOString() %>"><%= post.date.format(theme.date_format || 'YYYY.MM.DD') %></time>
+  <% } %>
+  <% if (post.categories && post.categories.length) { %>
+    <span class="dot">·</span>
+    <% post.categories.each(function (cat) { %>
+      <a class="chip chip-cat" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+    <% }) %>
+  <% } %>
+</div>

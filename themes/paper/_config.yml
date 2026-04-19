@@ -1,0 +1,24 @@
+# Paper theme config
+
+# Menu — order matters. Key is the label, value is the path.
+Menu:
+  主页: /
+  分类: /categories
+  标签: /tags
+  归档: /archives
+  关于: /about
+
+# Post date format — used in article lists and post header
+date_format: YYYY.MM.DD
+
+# Read more label (rendered after post excerpt on index)
+read_more: 阅读更多 →
+
+# highlight.js theme (see source/plugins/highlight/styles/*.css)
+highlight:
+  enable: true
+  theme: atom-one-dark
+
+# busuanzi site-wide page view counter (footer)
+busuanzi:
+  enable: true

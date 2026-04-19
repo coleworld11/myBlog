@@ -1,0 +1,106 @@
+// prose — article body typography
+
+.prose
+  color var(--fg)
+  font-size 16px
+  line-height var(--lh-relaxed)
+  word-wrap break-word
+
+.prose > * + *
+  margin-top var(--sp-5)
+
+.prose h1, .prose h2, .prose h3, .prose h4
+  margin-top var(--sp-10)
+  margin-bottom var(--sp-4)
+  font-weight 600
+  letter-spacing -0.01em
+
+.prose h1
+  font-size 1.75rem
+.prose h2
+  font-size 1.5rem
+  padding-bottom var(--sp-2)
+  border-bottom 1px solid var(--border)
+.prose h3
+  font-size 1.25rem
+.prose h4
+  font-size 1.05rem
+
+.prose p
+  margin 0
+
+.prose a
+  color var(--accent)
+  border-bottom 1px solid transparent
+  transition border-color var(--transition-base)
+
+.prose a:hover
+  color var(--accent-hover)
+  border-bottom-color var(--accent-hover)
+
+.prose strong
+  color var(--fg-heading)
+  font-weight 600
+
+.prose em
+  font-style italic
+
+.prose ul, .prose ol
+  padding-left var(--sp-6)
+  margin 0
+
+.prose li
+  margin var(--sp-1) 0
+
+.prose li > ul, .prose li > ol
+  margin-top var(--sp-2)
+
+.prose blockquote
+  margin 0
+  padding var(--sp-2) var(--sp-5)
+  border-left 3px solid var(--border-strong)
+  color var(--fg-muted)
+  font-style normal
+
+.prose blockquote p
+  margin 0
+
+.prose img
+  border-radius var(--radius-md)
+  border 1px solid var(--border)
+
+.prose hr
+  border 0
+  border-top 1px solid var(--border)
+
+.prose table
+  width 100%
+  border-collapse collapse
+  font-size 0.95em
+
+.prose th, .prose td
+  border 1px solid var(--border)
+  padding var(--sp-2) var(--sp-3)
+  text-align left
+
+.prose th
+  background var(--bg-elevated)
+  color var(--fg-heading)
+  font-weight 600
+
+.prose kbd
+  font-family var(--font-mono)
+  font-size 0.85em
+  padding 2px 6px
+  background var(--bg-elevated)
+  border 1px solid var(--border)
+  border-radius var(--radius-sm)
+
+// inline code
+.prose :not(pre) > code
+  font-family var(--font-mono)
+  font-size 0.88em
+  padding 2px 6px
+  background var(--code-inline-bg)
+  color var(--code-fg)
+  border-radius var(--radius-sm)

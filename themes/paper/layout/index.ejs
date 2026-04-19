@@ -1,0 +1,8 @@
+<div class="feed">
+  <div class="post-list">
+    <% page.posts.each(function (item) { %>
+      <%- partial('_partial/article', { item: item }) %>
+    <% }) %>
+  </div>
+  <%- partial('_partial/pagination') %>
+</div>

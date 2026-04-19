@@ -1,0 +1,104 @@
+// Design tokens — all colors, fonts, spacing must reference these vars.
+// No hard-coded hex in other stylus files.
+
+:root
+  // Light (default) — 米纸
+  --bg              #F9F8F6
+  --bg-elevated     #FFFFFF
+  --fg              #2D2B2B
+  --fg-heading      #1A1A1A
+  --fg-muted        #737373
+  --fg-subtle       #A09E96
+  --border          #E5E3D8
+  --border-strong   #D4D2C9
+  --accent          #D97757
+  --accent-hover    #C06345
+  --accent-bg       rgba(217, 119, 87, 0.08)
+  --code-bg         #F4F3ED
+  --code-fg         #2D2B2B
+  --code-inline-bg  #EEEBE0
+  --selection-bg    rgba(217, 119, 87, 0.22)
+
+  --font-sans       -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'PingFang SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif
+  --font-mono       'JetBrains Mono', 'SF Mono', 'Cascadia Code', Consolas, 'Liberation Mono', monospace
+
+  --sp-1  4px
+  --sp-2  8px
+  --sp-3  12px
+  --sp-4  16px
+  --sp-5  20px
+  --sp-6  24px
+  --sp-8  32px
+  --sp-10 40px
+  --sp-12 48px
+  --sp-15 60px
+  --sp-16 64px
+  --sp-20 80px
+
+  --content-width   760px
+  --layout-width    1100px
+
+  --radius-sm 2px
+  --radius-md 8px
+  --radius-lg 12px
+  --radius-pill 999px
+
+  --lh-tight   1.35
+  --lh-normal  1.75
+  --lh-relaxed 1.8
+
+  --transition-base 180ms ease
+
+// System-level dark mode
+@media (prefers-color-scheme: dark)
+  :root
+    --bg              #17171A
+    --bg-elevated     #1F1F22
+    --fg              #E4E2DC
+    --fg-heading      #F5F2EC
+    --fg-muted        #9A9A96
+    --fg-subtle       #6E6E6A
+    --border          #2C2C30
+    --border-strong   #3E3E42
+    --accent          #E89478
+    --accent-hover    #F3A98F
+    --accent-bg       rgba(232, 148, 120, 0.1)
+    --code-bg         #1E1E22
+    --code-fg         #E4E2DC
+    --code-inline-bg  #26262A
+    --selection-bg    rgba(232, 148, 120, 0.25)
+
+// Manual override — user-selected theme wins over system
+html[data-theme='light']
+  --bg              #F9F8F6
+  --bg-elevated     #FFFFFF
+  --fg              #2D2B2B
+  --fg-heading      #1A1A1A
+  --fg-muted        #737373
+  --fg-subtle       #A09E96
+  --border          #E5E3D8
+  --border-strong   #D4D2C9
+  --accent          #D97757
+  --accent-hover    #C06345
+  --accent-bg       rgba(217, 119, 87, 0.08)
+  --code-bg         #F4F3ED
+  --code-fg         #2D2B2B
+  --code-inline-bg  #EEEBE0
+  --selection-bg    rgba(217, 119, 87, 0.22)
+
+html[data-theme='dark']
+  --bg              #17171A
+  --bg-elevated     #1F1F22
+  --fg              #E4E2DC
+  --fg-heading      #F5F2EC
+  --fg-muted        #9A9A96
+  --fg-subtle       #6E6E6A
+  --border          #2C2C30
+  --border-strong   #3E3E42
+  --accent          #E89478
+  --accent-hover    #F3A98F
+  --accent-bg       rgba(232, 148, 120, 0.1)
+  --code-bg         #1E1E22
+  --code-fg         #E4E2DC
+  --code-inline-bg  #26262A
+  --selection-bg    rgba(232, 148, 120, 0.25)

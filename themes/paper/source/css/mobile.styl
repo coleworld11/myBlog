@@ -1,0 +1,79 @@
+// mobile — narrow viewport overrides
+
+@media (max-width: 1024px)
+  .main
+    padding var(--sp-8) var(--sp-5)
+
+  .post-layout.has-toc
+    grid-template-columns 1fr
+    gap var(--sp-6)
+
+  .toc
+    position static
+    max-height none
+    margin-bottom var(--sp-6)
+    border 1px solid var(--border)
+    border-radius var(--radius-md)
+    padding 0
+
+  .toc > summary
+    display list-item
+    padding var(--sp-3) var(--sp-5)
+    cursor pointer
+    font-weight 600
+    color var(--fg-heading)
+    list-style-position inside
+
+  .toc[open] > summary
+    border-bottom 1px solid var(--border)
+
+  .toc-body
+    padding var(--sp-3) var(--sp-5)
+
+@media (max-width: 640px)
+  html
+    font-size 15px
+
+  .nav
+    padding var(--sp-5) var(--sp-4)
+    flex-wrap wrap
+    gap var(--sp-3)
+
+  .nav-brand
+    font-size 1.15rem
+
+  .nav-menu
+    gap var(--sp-4)
+    width 100%
+    order 2
+
+  .main
+    padding var(--sp-6) var(--sp-4)
+
+  .card
+    padding var(--sp-6) var(--sp-5)
+
+  .article-title
+    font-size 1.5rem !important
+
+  .post-title
+    font-size 1.75rem !important
+
+  .prose pre
+    font-size 12.5px
+
+  .prose pre > code
+    padding var(--sp-4)
+
+  .taxonomy-grid
+    grid-template-columns 1fr 1fr !important
+
+  .archive-row
+    flex-direction column
+    align-items flex-start !important
+    gap var(--sp-1) !important
+
+  .site-footer
+    margin-top var(--sp-16)
+    padding var(--sp-8) var(--sp-4)
+    font-size 12px

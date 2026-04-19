@@ -1,0 +1,133 @@
+// pages — archive / tag / category / about
+
+// ---- Shared page header ----
+.page-head
+  margin-bottom var(--sp-12)
+  text-align center
+
+.page-head h1
+  font-size 2rem
+  font-weight 700
+  margin 0 0 var(--sp-2)
+
+.page-head .page-sub
+  color var(--fg-muted)
+  font-size 14px
+
+// ---- Archive / timeline ----
+.archive
+  max-width var(--content-width)
+  margin 0 auto
+  padding-left var(--sp-6)
+  border-left 1px solid var(--border)
+
+.archive-year
+  position relative
+  margin var(--sp-10) 0 var(--sp-5)
+  font-size 1.25rem
+  font-weight 600
+  color var(--fg-heading)
+
+.archive-year:first-child
+  margin-top 0
+
+.archive-year::before
+  content ''
+  position absolute
+  left calc(var(--sp-6) * -1 - 5px)
+  top 50%
+  width 9px
+  height 9px
+  border-radius 50%
+  background var(--accent)
+  transform translateY(-50%)
+
+.archive-row
+  position relative
+  display flex
+  align-items baseline
+  gap var(--sp-4)
+  padding var(--sp-2) 0
+  color var(--fg)
+  font-size 15px
+
+.archive-row::before
+  content ''
+  position absolute
+  left calc(var(--sp-6) * -1 - 3px)
+  top 50%
+  width 5px
+  height 5px
+  border-radius 50%
+  background var(--border-strong)
+  transform translateY(-50%)
+  transition background var(--transition-base)
+
+.archive-row:hover::before
+  background var(--accent)
+
+.archive-date
+  font-variant-numeric tabular-nums
+  color var(--fg-muted)
+  font-size 13px
+  min-width 56px
+  flex-shrink 0
+
+.archive-title
+  flex 1
+  color var(--fg)
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+
+.archive-title:hover
+  color var(--accent)
+
+// ---- Tag / Category grids ----
+.taxonomy-grid
+  display grid
+  grid-template-columns repeat(auto-fill, minmax(180px, 1fr))
+  gap var(--sp-3)
+  max-width var(--layout-width)
+  margin 0 auto
+
+.taxonomy-item
+  display flex
+  align-items center
+  justify-content space-between
+  padding var(--sp-4) var(--sp-5)
+  border 1px solid var(--border)
+  border-radius var(--radius-md)
+  color var(--fg)
+  transition all var(--transition-base)
+
+.taxonomy-item:hover
+  border-color var(--accent)
+  color var(--accent)
+
+.taxonomy-name
+  font-weight 500
+
+.taxonomy-count
+  font-size 13px
+  color var(--fg-muted)
+  font-variant-numeric tabular-nums
+
+.taxonomy-item:hover .taxonomy-count
+  color var(--accent)
+
+// ---- Single taxonomy (tag/category) — post list ----
+.taxonomy-posts
+  max-width var(--content-width)
+  margin 0 auto
+
+.taxonomy-posts .archive-row
+  border-bottom 1px solid var(--border)
+
+.taxonomy-posts .archive-row:last-child
+  border-bottom none
+
+// ---- About page ----
+.about
+  max-width var(--content-width)
+  margin 0 auto

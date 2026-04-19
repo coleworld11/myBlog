@@ -1,0 +1,29 @@
+<% if (page.tag) { %>
+  <div class="page-head">
+    <h1>#<%= page.tag %></h1>
+    <div class="page-sub"><%= page.posts.length %> 篇</div>
+  </div>
+  <div class="taxonomy-posts">
+    <% page.posts.sort('-date').each(function (post) { %>
+      <div class="archive-row">
+        <span class="archive-date"><%= post.date.format(theme.date_format || 'YYYY.MM.DD') %></span>
+        <a class="archive-title" href="<%- url_for(post.path) %>"><%= post.title %></a>
+      </div>
+    <% }) %>
+  </div>
+<% } else { %>
+  <div class="page-head">
+    <h1>标签</h1>
+    <div class="page-sub">共 <%= site.tags.length %> 个标签</div>
+  </div>
+  <% if (site.tags.length) { %>
+    <div class="taxonomy-grid">
+      <% site.tags.sort('-length').each(function (tag) { %>
+        <a class="taxonomy-item" href="<%- url_for(tag.path) %>">
+          <span class="taxonomy-name"># <%= tag.name %></span>
+          <span class="taxonomy-count"><%= tag.posts.length %></span>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+<% } %>
