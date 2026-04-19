@@ -11,7 +11,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Common Commands
 
 ```bash
-hexo server         # 开发服务器 http://localhost:4000/myBlog/（在此环境 pnpm server 启动失败，直接用 hexo 二进制）
+hexo server         # 开发服务器 http://localhost:4000/myBlog/
+                    # （pnpm 10 移除了自定义脚本的隐式 fallback，`pnpm server` 会静默 no-op；
+                    #  `pnpm run server` 或直接 `hexo server` 都行。`build`/`clean` 是 npm lifecycle
+                    #  shortcut，所以 `pnpm build` / `pnpm clean` 仍然可以不带 `run`。）
 pnpm build          # 生成 public/  (hexo generate)
 pnpm clean          # 清 public/ 和 db.json（改配置 / 主题文件后必跑）
 pnpm deploy         # 通过 hexo-deployer-git 推（CI 不走此路径）
