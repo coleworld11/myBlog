@@ -2,7 +2,7 @@
 
 @media (max-width: 1024px)
   .main
-    padding var(--sp-8) var(--sp-5)
+    padding var(--sp-3) var(--sp-4) 0
 
   .post-layout.has-toc
     grid-template-columns 1fr
@@ -34,24 +34,28 @@
   html
     font-size 15px
 
-  .nav
-    padding var(--sp-5) var(--sp-4)
+  .header-container
+    padding 1.5rem var(--sp-4) 3rem
+
+  .header-left-spacer
+    display none
+
+  .header-right-controls
+    width auto
+
+  .main-nav
+    gap 1rem
     flex-wrap wrap
-    gap var(--sp-3)
-
-  .nav-brand
-    font-size 1.15rem
-
-  .nav-menu
-    gap var(--sp-4)
-    width 100%
-    order 2
 
   .main
-    padding var(--sp-6) var(--sp-4)
+    padding var(--sp-3) var(--sp-4) 0
 
   .card
-    padding var(--sp-6) var(--sp-5)
+    margin-bottom var(--sp-10)
+    border-bottom 1px solid var(--border)
+
+  .card:last-child
+    border-bottom none
 
   .article-title
     font-size 1.5rem !important
@@ -68,9 +72,9 @@
   .category-index
     max-width none
 
-  .tag-cloud
+  .tag-cloud-naked
     max-width none
-    gap var(--sp-3)
+    gap 1rem 1.5rem
 
   .archive-row
     flex-direction column

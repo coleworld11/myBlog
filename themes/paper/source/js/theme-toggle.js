@@ -1,37 +1,27 @@
 (function () {
   'use strict';
 
-  // ---- Theme toggle: light → dark → auto (system) ----
+  // ---- Theme toggle: light ↔ dark ----
   var KEY = 'theme';
   var root = document.documentElement;
 
   function apply(mode) {
-    if (mode === 'light' || mode === 'dark') {
-      root.setAttribute('data-theme', mode);
-    } else {
-      root.removeAttribute('data-theme');
-    }
+    root.setAttribute('data-theme', mode);
   }
 
   function next(current) {
-    if (current === 'light') return 'dark';
-    if (current === 'dark') return 'auto';
-    return 'light';
+    return current === 'light' ? 'dark' : 'light';
   }
 
   function current() {
-    return localStorage.getItem(KEY) || 'auto';
+    return localStorage.getItem(KEY) || 'light';
   }
 
   var btn = document.getElementById('themeToggle');
   if (btn) {
     btn.addEventListener('click', function () {
       var n = next(current());
-      if (n === 'auto') {
-        localStorage.removeItem(KEY);
-      } else {
-        localStorage.setItem(KEY, n);
-      }
+      localStorage.setItem(KEY, n);
       apply(n);
     });
   }

@@ -4,6 +4,7 @@
   color var(--fg)
   font-size 16px
   line-height var(--lh-relaxed)
+  letter-spacing 0.01em
   word-wrap break-word
 
 .prose > * + *
@@ -12,15 +13,13 @@
 .prose h1, .prose h2, .prose h3, .prose h4
   margin-top var(--sp-10)
   margin-bottom var(--sp-4)
-  font-weight 600
-  letter-spacing -0.01em
+  font-weight 700
+  letter-spacing -0.02em
 
 .prose h1
   font-size 1.75rem
 .prose h2
   font-size 1.5rem
-  padding-bottom var(--sp-2)
-  border-bottom 1px solid var(--border)
 .prose h3
   font-size 1.25rem
 .prose h4
@@ -32,7 +31,7 @@
 .prose a
   color var(--accent)
   border-bottom 1px solid transparent
-  transition border-color var(--transition-base)
+  transition border-color var(--transition-base), color var(--transition-base)
 
 .prose a:hover
   color var(--accent-hover)
@@ -71,7 +70,9 @@
 
 .prose hr
   border 0
-  border-top 1px solid var(--border)
+  height 1px
+  background linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0))
+  margin var(--sp-6) 0
 
 .prose table
   width 100%

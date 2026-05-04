@@ -2,22 +2,23 @@
 // No hard-coded hex in other stylus files.
 
 :root
-  // Light (default) — 米纸
-  --bg              #F9F8F6
+  // Warm paper — 温润的数字纸张
+  --bg              #FCFCFA
   --bg-elevated     #FFFFFF
-  --fg              #2D2B2B
+  --fg              #333333
   --fg-heading      #1A1A1A
-  --fg-muted        #737373
+  --fg-muted        #888888
   --fg-subtle       #A09E96
-  --border          #E5E3D8
-  --border-strong   #D4D2C9
-  --accent          #D97757
-  --accent-hover    #C06345
-  --accent-bg       rgba(217, 119, 87, 0.08)
+  --border          #E8E5DF
+  --border-strong   #D8D5CE
+  --accent          #BC4A3C
+  --accent-hover    #A03D30
+  --accent-bg       rgba(188, 74, 60, 0.06)
+  --accent-bg-hover rgba(188, 74, 60, 0.12)
   --code-bg         #F4F3ED
-  --code-fg         #2D2B2B
+  --code-fg         #333333
   --code-inline-bg  #EEEBE0
-  --selection-bg    rgba(217, 119, 87, 0.22)
+  --selection-bg    rgba(188, 74, 60, 0.18)
 
   --font-sans       -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'PingFang SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif
   --font-mono       'JetBrains Mono', 'SF Mono', 'Cascadia Code', Consolas, 'Liberation Mono', monospace
@@ -39,66 +40,69 @@
   --layout-width    1100px
 
   --radius-sm 2px
-  --radius-md 8px
-  --radius-lg 12px
+  --radius-md 4px
+  --radius-lg 8px
   --radius-pill 999px
 
   --lh-tight   1.35
   --lh-normal  1.75
   --lh-relaxed 1.8
 
-  --transition-base 180ms ease
+  --transition-base 200ms ease
 
 // System-level dark mode
 @media (prefers-color-scheme: dark)
   :root
-    --bg              #17171A
-    --bg-elevated     #1F1F22
+    --bg              #1A1A1C
+    --bg-elevated     #222224
     --fg              #E4E2DC
     --fg-heading      #F5F2EC
     --fg-muted        #9A9A96
     --fg-subtle       #6E6E6A
     --border          #2C2C30
     --border-strong   #3E3E42
-    --accent          #E89478
-    --accent-hover    #F3A98F
-    --accent-bg       rgba(232, 148, 120, 0.1)
+    --accent          #D4846E
+    --accent-hover    #E8987E
+    --accent-bg       rgba(212, 132, 110, 0.12)
+    --accent-bg-hover rgba(212, 132, 110, 0.2)
     --code-bg         #1E1E22
     --code-fg         #E4E2DC
     --code-inline-bg  #26262A
-    --selection-bg    rgba(232, 148, 120, 0.25)
+    --selection-bg    rgba(212, 132, 110, 0.22)
 
 // Manual override — user-selected theme wins over system
 html[data-theme='light']
-  --bg              #F9F8F6
+  --bg              #FCFCFA
   --bg-elevated     #FFFFFF
-  --fg              #2D2B2B
+  --fg              #333333
   --fg-heading      #1A1A1A
-  --fg-muted        #737373
+  --fg-muted        #888888
   --fg-subtle       #A09E96
-  --border          #E5E3D8
-  --border-strong   #D4D2C9
-  --accent          #D97757
-  --accent-hover    #C06345
-  --accent-bg       rgba(217, 119, 87, 0.08)
+  --border          #E8E5DF
+  --border-strong   #D8D5CE
+  --accent          #BC4A3C
+  --accent-hover    #A03D30
+  --accent-bg       rgba(188, 74, 60, 0.06)
+  --accent-bg-hover rgba(188, 74, 60, 0.12)
   --code-bg         #F4F3ED
-  --code-fg         #2D2B2B
+  --code-fg         #333333
   --code-inline-bg  #EEEBE0
-  --selection-bg    rgba(217, 119, 87, 0.22)
+  --selection-bg    rgba(188, 74, 60, 0.18)
 
 html[data-theme='dark']
-  --bg              #17171A
-  --bg-elevated     #1F1F22
+  --bg              #1A1A1C
+  --bg-elevated     #222224
   --fg              #E4E2DC
   --fg-heading      #F5F2EC
   --fg-muted        #9A9A96
   --fg-subtle       #6E6E6A
   --border          #2C2C30
   --border-strong   #3E3E42
-  --accent          #E89478
-  --accent-hover    #F3A98F
-  --accent-bg       rgba(232, 148, 120, 0.1)
+  --accent          #D4846E
+  --accent-hover    #E8987E
+  --accent-bg       rgba(212, 132, 110, 0.12)
+  --accent-bg-hover rgba(212, 132, 110, 0.2)
   --code-bg         #1E1E22
   --code-fg         #E4E2DC
   --code-inline-bg  #26262A
-  --selection-bg    rgba(232, 148, 120, 0.25)
+  --selection-bg    rgba(212, 132, 110, 0.22)

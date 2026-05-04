@@ -13,7 +13,7 @@
   <% if (item.tags && item.tags.length) { %>
     <div class="chip-list">
       <% item.tags.each(function (tag) { %>
-        <a class="chip" href="<%- url_for(tag.path) %>"># <%= tag.name %></a>
+        <a class="chip" href="<%- url_for(tag.path) %>"><span class="hash">#</span><%= tag.name %></a>
       <% }) %>
     </div>
   <% } %>

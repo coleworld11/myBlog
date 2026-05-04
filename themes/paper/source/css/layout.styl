@@ -1,68 +1,47 @@
 // layout — nav / main / footer skeleton
 
-.site-header
-  border-bottom 1px solid var(--border)
-  background var(--bg)
-
-.nav
-  max-width var(--layout-width)
+// ---- Header: three-column centered nav ----
+.header-container
+  max-width var(--content-width)
   margin 0 auto
-  padding var(--sp-6) var(--sp-8)
+  padding 3rem var(--sp-6) 4rem
   display flex
-  align-items center
   justify-content space-between
-  gap var(--sp-6)
-
-.nav-brand
-  font-size 1.25rem
-  font-weight 600
-  color var(--fg)
-  letter-spacing 0.1em
-  transition opacity var(--transition-base)
-
-.nav-brand::after
-  content '.'
-  margin-left 2px
-  color var(--accent)
-  font-weight 700
-  letter-spacing 0
-
-.nav-brand:hover
-  color var(--fg)
-  opacity 0.7
-
-.nav-menu
-  display flex
   align-items center
-  gap var(--sp-6)
-  flex-wrap wrap
 
-.nav-menu a
-  font-size 14px
-  font-weight 500
+// Left and right slots share equal width so the nav stays dead-centre
+.header-left-spacer,
+.header-right-controls
+  width 50px
+  display flex
+
+.header-right-controls
+  justify-content flex-end
+
+.main-nav
+  display flex
+  gap 2.5rem
+
+.nav-item
   color var(--fg-muted)
-  position relative
-  padding var(--sp-1) 0
+  font-size 1rem
+  letter-spacing 0.02em
+  text-decoration none
+  transition color 0.3s ease
+  padding-bottom 4px
 
-.nav-menu a:hover
+.nav-item:hover
+  color var(--fg)
+
+.nav-item.active
   color var(--fg-heading)
-
-.nav-menu a.active
-  color var(--fg-heading)
-
-.nav-menu a.active::after
-  content ''
-  position absolute
-  left 0
-  right 0
-  bottom -4px
-  height 2px
-  background var(--accent)
+  font-weight 600
+  border-bottom 2px solid var(--border-strong)
 
 .main
   flex 1
   width 100%
-  padding var(--sp-12) var(--sp-8)
+  padding var(--sp-2) var(--sp-6) 0
 
 .site-footer
   margin-top var(--sp-20)

@@ -7,9 +7,9 @@
 
 .page-head h1
   font-size 2rem
-  font-weight 600
-  color var(--fg)
-  letter-spacing 0.08em
+  font-weight 700
+  color var(--fg-heading)
+  letter-spacing -0.02em
   margin 0 0 var(--sp-2)
 
 .page-head .page-sub
@@ -21,53 +21,24 @@
 .archive
   max-width var(--content-width)
   margin 0 auto
-  padding-left var(--sp-6)
-  border-left 1px solid var(--border)
 
 .archive-year
-  position relative
-  margin var(--sp-10) 0 var(--sp-5)
+  margin var(--sp-12) 0 var(--sp-5)
   font-size 1.25rem
-  font-weight 600
+  font-weight 700
   color var(--fg-heading)
+  letter-spacing -0.02em
 
 .archive-year:first-child
   margin-top 0
 
-.archive-year::before
-  content ''
-  position absolute
-  left calc(var(--sp-6) * -1 - 5px)
-  top 50%
-  width 9px
-  height 9px
-  border-radius 50%
-  background var(--accent)
-  transform translateY(-50%)
-
 .archive-row
-  position relative
   display flex
   align-items baseline
-  gap var(--sp-4)
+  gap var(--sp-5)
   padding var(--sp-2) 0
   color var(--fg)
   font-size 15px
-
-.archive-row::before
-  content ''
-  position absolute
-  left calc(var(--sp-6) * -1 - 3px)
-  top 50%
-  width 5px
-  height 5px
-  border-radius 50%
-  background var(--border-strong)
-  transform translateY(-50%)
-  transition background var(--transition-base)
-
-.archive-row:hover::before
-  background var(--accent)
 
 .archive-date
   font-variant-numeric tabular-nums
@@ -82,11 +53,11 @@
   overflow hidden
   text-overflow ellipsis
   white-space nowrap
+  transition color var(--transition-base)
 
 .archive-title:hover
   color var(--accent)
 
-// ---- Tag / Category grids ----
 // ---- Category index (book-index style) ----
 // Clean single-column list. Hover: page floats slightly right with
 // a paper-white surface revealing underneath — like turning a page.
@@ -105,12 +76,11 @@
   border-radius var(--radius-md)
   color var(--fg)
   background transparent
-  transition background-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base)
+  transition background-color var(--transition-base), transform var(--transition-base)
 
 .category-index-item:hover
   background var(--bg-elevated)
   transform translateX(6px)
-  box-shadow 0 4px 12px rgba(0, 0, 0, 0.04)
 
 .category-index-item .name
   font-size 1.05rem
@@ -127,51 +97,93 @@
 .category-index-item .count::after
   content ')'
 
-// ---- Tag cloud (pill style) ----
-.tag-cloud
-  max-width 800px
-  margin 0 auto
+// ---- Tag cloud (naked monochrome — air + typography, zero background) ----
+.tag-cloud-naked
   display flex
   flex-wrap wrap
+  gap 1.5rem 2.5rem
   justify-content center
-  gap var(--sp-4)
+  max-width 800px
+  margin 3rem auto
 
-.tag-cloud a
+.tag-item-naked
   display inline-flex
-  align-items center
-  padding var(--sp-2) var(--sp-5)
-  background var(--bg-elevated)
-  border 1px solid var(--border)
-  border-radius var(--radius-pill)
-  color var(--fg-muted)
-  font-size 0.95rem
-  transition color var(--transition-base), border-color var(--transition-base), background-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base)
+  align-items baseline
+  padding 0
+  background transparent
+  border none
+  text-decoration none
+  position relative
+  transition all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
 
-.tag-cloud a::before
-  content '#'
-  margin-right 4px
-  color var(--fg-subtle)
+.tag-item-naked .tag-prefix
+  color #D1D1D1
+  font-size 0.85rem
+  margin-right 0.15rem
   font-weight 300
-  transition color var(--transition-base)
 
-.tag-cloud a:hover
-  color var(--accent)
-  border-color var(--accent)
-  background var(--accent-bg)
-  transform translateY(-2px)
-  box-shadow 0 4px 12px rgba(217, 119, 87, 0.12)
+.tag-item-naked .tag-name
+  color #555555
+  font-size 1.05rem
+  font-weight 400
+  letter-spacing 0.02em
 
-.tag-cloud a:hover::before
-  color var(--accent)
+.tag-item-naked .tag-count
+  color #A0A0A0
+  font-size 0.75rem
+  margin-left 0.25rem
+  font-weight 300
 
-.tag-cloud a .count
-  margin-left var(--sp-2)
-  font-size 0.8rem
-  color var(--fg-subtle)
-  font-variant-numeric tabular-nums
+.tag-item-naked:hover .tag-name
+  color #000000
 
-.tag-cloud a:hover .count
-  color var(--accent)
+.tag-item-naked:hover .tag-prefix,
+.tag-item-naked:hover .tag-count
+  color #888888
+
+.tag-item-naked::after
+  content ''
+  position absolute
+  bottom -4px
+  left 0
+  width 0%
+  height 1px
+  background-color #000000
+  transition width 0.3s ease
+
+.tag-item-naked:hover::after
+  width 100%
+
+// Dark mode — invert the gray scale
+@media (prefers-color-scheme: dark)
+  .tag-item-naked .tag-prefix
+    color #5A5A5A
+  .tag-item-naked .tag-name
+    color #B0B0B0
+  .tag-item-naked .tag-count
+    color #6A6A6A
+  .tag-item-naked:hover .tag-name
+    color #FFFFFF
+  .tag-item-naked:hover .tag-prefix,
+  .tag-item-naked:hover .tag-count
+    color #999999
+  .tag-item-naked::after
+    background-color #FFFFFF
+
+html[data-theme='dark']
+  .tag-item-naked .tag-prefix
+    color #5A5A5A
+  .tag-item-naked .tag-name
+    color #B0B0B0
+  .tag-item-naked .tag-count
+    color #6A6A6A
+  .tag-item-naked:hover .tag-name
+    color #FFFFFF
+  .tag-item-naked:hover .tag-prefix,
+  .tag-item-naked:hover .tag-count
+    color #999999
+  .tag-item-naked::after
+    background-color #FFFFFF
 
 // ---- Single taxonomy (tag/category) — post list ----
 .taxonomy-posts

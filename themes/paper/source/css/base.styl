@@ -35,9 +35,19 @@ a:hover
 
 h1, h2, h3, h4, h5, h6
   color var(--fg-heading)
-  font-weight 600
+  font-weight 700
   line-height var(--lh-tight)
   margin 0
+
+h1
+  font-size 2.25rem
+  letter-spacing -0.02em
+
+h2
+  font-size 1.5rem
+
+h3
+  font-size 1.25rem
 
 p
   margin 0
@@ -58,7 +68,8 @@ button
 
 hr
   border 0
-  border-top 1px solid var(--border)
+  height 1px
+  background linear-gradient(to right, rgba(0,0,0,0.06), rgba(0,0,0,0))
   margin var(--sp-8) 0
 
 input, textarea

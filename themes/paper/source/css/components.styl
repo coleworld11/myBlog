@@ -7,20 +7,18 @@
   max-width var(--content-width)
   margin 0 auto
 
-// ---- Card (article list item) ----
+// ---- Article list item (de-carded — whitespace-driven) ----
 .card
-  background var(--bg-elevated)
-  border 1px solid var(--border)
-  border-radius var(--radius-lg)
-  padding var(--sp-10) var(--sp-12)
-  margin-bottom var(--sp-10)
-  transition border-color var(--transition-base)
-
-.card:hover
-  border-color var(--border-strong)
+  background transparent
+  border none
+  border-bottom 1px solid var(--border)
+  border-radius 0
+  padding 0
+  margin-bottom var(--sp-15)
 
 .card:last-child
   margin-bottom 0
+  border-bottom none
 
 .article-meta-top
   display flex
@@ -28,7 +26,7 @@
   gap var(--sp-3)
   color var(--fg-muted)
   font-size 13px
-  margin-bottom var(--sp-3)
+  margin-bottom var(--sp-2)
 
 .article-meta-top time
   font-variant-numeric tabular-nums
@@ -37,6 +35,7 @@
   font-size 1.75rem
   font-weight 700
   line-height var(--lh-tight)
+  letter-spacing -0.02em
   margin 0 0 var(--sp-4)
   color var(--fg-heading)
 
@@ -52,6 +51,8 @@
   color var(--fg)
   line-height var(--lh-relaxed)
   font-size 15px
+  letter-spacing 0.01em
+  max-width 65ch
 
 .article-excerpt p
   margin 0
@@ -60,25 +61,26 @@
   margin-top var(--sp-3)
 
 .read-more
-  margin-top var(--sp-4)
+  margin-top var(--sp-5)
 
 .read-more a
   display inline-flex
   align-items center
   gap 6px
   font-size 14px
-  color var(--accent)
+  color var(--fg-muted)
   font-weight 500
+  transition color var(--transition-base), transform var(--transition-base)
 
 .read-more a:hover
-  color var(--accent-hover)
+  color var(--fg-heading)
+  transform translateX(2px)
 
 // ---- Chips (tags / categories) ----
-// Pure text — no borders, no bubbles. Rely on color/weight for visual weight.
 .chip-list
   display flex
   flex-wrap wrap
-  gap var(--sp-4)
+  gap var(--sp-2)
   margin-top var(--sp-3)
 
 .chip
@@ -86,14 +88,31 @@
   align-items center
   font-size 12px
   color var(--fg-muted)
-  transition color var(--transition-base)
+  background var(--code-inline-bg)
+  padding 3px 10px
+  border-radius 6px
+  transition color var(--transition-base), background var(--transition-base), transform var(--transition-base)
+
+.chip .hash
+  color var(--fg-subtle)
+  margin-right 1px
+  font-weight 400
 
 .chip:hover
-  color var(--accent)
+  color var(--fg-heading)
+  background var(--border)
+  transform translateY(-1px)
 
 .chip.chip-cat
-  color var(--fg-heading)
+  color var(--fg-muted)
   font-weight 500
+  background none
+  padding 0
+
+.chip.chip-cat:hover
+  color var(--fg-heading)
+  background none
+  transform none
 
 // ---- Pagination ----
 .pagination
@@ -149,15 +168,13 @@
   min-width 0    // let flex/grid shrink when overflowing
 
 .post-header
-  margin-bottom var(--sp-8)
-  padding-bottom var(--sp-6)
-  border-bottom 1px solid var(--border)
+  margin-bottom var(--sp-10)
 
 .post-title
   font-size 2.25rem
   font-weight 700
   line-height var(--lh-tight)
-  letter-spacing -0.01em
+  letter-spacing -0.02em
   margin 0 0 var(--sp-3)
 
 .post-meta
@@ -220,32 +237,36 @@
 
 // ---- Theme toggle ----
 .theme-toggle
-  width 34px
-  height 34px
-  border-radius var(--radius-pill)
+  background none
+  border none
   color var(--fg-muted)
-  border 1px solid var(--border)
+  cursor pointer
+  padding 5px
   display inline-flex
   align-items center
   justify-content center
-  transition all var(--transition-base)
+  transition color 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+  flex-shrink 0
 
 .theme-toggle:hover
-  color var(--accent)
-  border-color var(--accent)
+  color var(--fg)
+  transform rotate(45deg)
 
 .theme-toggle svg
-  width 16px
-  height 16px
+  width 1.2rem
+  height 1.2rem
 
-.theme-toggle .theme-icon-light, .theme-toggle .theme-icon-dark, .theme-toggle .theme-icon-auto
+.theme-toggle .theme-icon-light, .theme-toggle .theme-icon-dark
   display none
 
-html[data-theme='light'] .theme-toggle .theme-icon-light
+// Light icon is the default (shown when data-theme is unset or light)
+.theme-toggle .theme-icon-light
   display block
+
+html[data-theme='dark'] .theme-toggle .theme-icon-light
+  display none
+
 html[data-theme='dark'] .theme-toggle .theme-icon-dark
-  display block
-html:not([data-theme='light']):not([data-theme='dark']) .theme-toggle .theme-icon-auto
   display block
 
 // ---- Post navigation (prev/next) ----
