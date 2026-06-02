@@ -1,10 +1,10 @@
 // prose — article body typography
 
 .prose
-  color var(--fg)
+  color var(--text-main)
   font-size 16px
   line-height var(--lh-relaxed)
-  letter-spacing 0.01em
+  letter-spacing 0
   word-wrap break-word
 
 .prose > * + *
@@ -13,8 +13,10 @@
 .prose h1, .prose h2, .prose h3, .prose h4
   margin-top var(--sp-10)
   margin-bottom var(--sp-4)
-  font-weight 700
-  letter-spacing -0.02em
+  font-family var(--font-serif)
+  font-weight 500
+  letter-spacing 0
+  color var(--text-heading)
 
 .prose h1
   font-size 1.75rem
@@ -29,16 +31,16 @@
   margin 0
 
 .prose a
-  color var(--accent)
-  border-bottom 1px solid transparent
+  color var(--text-main)
+  border-bottom 1px solid var(--border-color)
   transition border-color var(--transition-base), color var(--transition-base)
 
 .prose a:hover
-  color var(--accent-hover)
-  border-bottom-color var(--accent-hover)
+  color var(--accent-color)
+  border-bottom-color var(--accent-color)
 
 .prose strong
-  color var(--fg-heading)
+  color var(--text-heading)
   font-weight 600
 
 .prose em
@@ -58,7 +60,7 @@
   margin 0
   padding var(--sp-2) var(--sp-5)
   border-left 3px solid var(--border-strong)
-  color var(--fg-muted)
+  color var(--text-muted)
   font-style normal
 
 .prose blockquote p
@@ -66,12 +68,13 @@
 
 .prose img
   border-radius var(--radius-md)
-  border 1px solid var(--border)
+  border 1px solid var(--border-color)
+  background var(--code-bg)
 
 .prose hr
   border 0
   height 1px
-  background linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0))
+  background linear-gradient(to right, var(--border-color), transparent)
   margin var(--sp-6) 0
 
 .prose table
@@ -80,28 +83,29 @@
   font-size 0.95em
 
 .prose th, .prose td
-  border 1px solid var(--border)
+  border 1px solid var(--border-color)
   padding var(--sp-2) var(--sp-3)
   text-align left
 
 .prose th
-  background var(--bg-elevated)
-  color var(--fg-heading)
+  background var(--code-bg)
+  color var(--text-heading)
   font-weight 600
 
 .prose kbd
   font-family var(--font-mono)
   font-size 0.85em
   padding 2px 6px
-  background var(--bg-elevated)
-  border 1px solid var(--border)
+  background var(--code-bg)
+  border 1px solid var(--border-color)
   border-radius var(--radius-sm)
 
 // inline code
 .prose :not(pre) > code
   font-family var(--font-mono)
-  font-size 0.88em
-  padding 2px 6px
-  background var(--code-inline-bg)
-  color var(--code-fg)
-  border-radius var(--radius-sm)
+  font-size 0.9em
+  padding 0.12em 0.28em
+  background var(--code-bg)
+  color var(--text-main)
+  border 1px solid var(--border-color)
+  border-radius 2px

@@ -1,13 +1,26 @@
-<article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><%= page.title %></h1>
-    <% if (page.date) { %>
-      <div class="post-meta">
-        <time datetime="<%= page.date.toISOString() %>"><%= page.date.format(theme.date_format || 'YYYY.MM.DD') %></time>
-      </div>
-    <% } %>
-  </header>
-  <div class="prose">
-    <%- page.content %>
-  </div>
-</article>
+<section class="paper-grid page-paper-grid">
+  <aside class="coordinate-rail" aria-hidden="true">
+    <div class="coordinate-sticky">
+      <span class="coordinate-symbol">READ</span>
+      <span class="coordinate-progress" data-read-progress>00</span>
+    </div>
+  </aside>
+
+  <article class="post reading-column page-article">
+    <header class="post-header">
+      <h1 class="post-title"><%= page.title %></h1>
+      <% if (page.date) { %>
+        <div class="post-meta">
+          <time datetime="<%= page.date.toISOString() %>"><%= page.date.format(theme.date_format || 'YYYY.MM.DD') %></time>
+        </div>
+      <% } %>
+    </header>
+    <div class="prose post-content">
+      <%- page.content %>
+    </div>
+  </article>
+
+  <aside class="right-void">
+    <div class="right-void-inner"></div>
+  </aside>
+</section>

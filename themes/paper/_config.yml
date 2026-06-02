@@ -1,24 +1,34 @@
 # Paper theme config
 
-# Menu — order matters. Key is the label, value is the path.
-Menu:
-  主页: /
-  分类: /categories
-  标签: /tags
-  归档: /archives
-  关于: /about
+menu:
+  Articles: /archives
+  About: /about
 
-# Post date format — used in article lists and post header
+paper_effects:
+  grain_noise: true
+  ambient_nav: true
+  theater_mode: true
+
+index:
+  eager_posts: 10
+  excerpt_only: true
+
 date_format: YYYY.MM.DD
+read_more: 阅读更多
 
-# Read more label (rendered after post excerpt on index)
-read_more: 阅读更多 →
-
-# highlight.js theme (see source/plugins/highlight/styles/*.css)
 highlight:
   enable: true
-  theme: atom-one-dark
+  theme: atom-one-light
 
-# busuanzi site-wide page view counter (footer)
+gitalk:
+  enable: false
+  client_id: xxx
+  client_secret: xxx
+
 busuanzi:
   enable: true
+
+# Backward-compatible alias for older partials.
+Menu:
+  Articles: /archives
+  About: /about

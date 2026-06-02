@@ -4,15 +4,20 @@
 // The atom-one-dark.css loaded in head.ejs owns the inner background and
 // token colors; here we only provide the outer frame.
 
-.prose pre
-  margin 0
+.prose pre,
+.prose .highlight
+  margin 1.2rem 0
   padding 0
-  border 1px solid var(--border)
-  border-radius var(--radius-md)
+  border 1px solid var(--border-color)
+  border-radius 2px
   overflow hidden
-  background transparent
+  background var(--code-bg)
   line-height 1.6
   font-size 13.5px
+
+.prose > pre + *,
+.prose > .highlight + *
+  margin-top 1.2rem
 
 .prose pre > code
   display block
@@ -29,3 +34,4 @@
 // and we just keep the frame clean.
 .prose pre > code.hljs
   border-radius 0
+  background var(--code-bg)

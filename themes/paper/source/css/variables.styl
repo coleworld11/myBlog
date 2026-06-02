@@ -1,27 +1,35 @@
-// Design tokens — all colors, fonts, spacing must reference these vars.
-// No hard-coded hex in other stylus files.
-
 :root
-  // Warm paper — 温润的数字纸张
-  --bg              #FCFCFA
-  --bg-elevated     #FFFFFF
-  --fg              #333333
-  --fg-heading      #1A1A1A
-  --fg-muted        #888888
-  --fg-subtle       #A09E96
-  --border          #E8E5DF
-  --border-strong   #D8D5CE
-  --accent          #BC4A3C
-  --accent-hover    #A03D30
-  --accent-bg       rgba(188, 74, 60, 0.06)
-  --accent-bg-hover rgba(188, 74, 60, 0.12)
-  --code-bg         #F4F3ED
-  --code-fg         #333333
-  --code-inline-bg  #EEEBE0
-  --selection-bg    rgba(188, 74, 60, 0.18)
+  --bg-color #F9F8F6
+  --text-main #2D2D2D
+  --text-muted #8C8A85
+  --border-color #EBE8E2
+  --accent-color #3B66F5
+  --code-bg #F2EFE9
+  --surface-color rgba(255, 255, 255, 0.42)
+  --surface-strong #FFFFFF
+  --text-heading #202020
+  --text-subtle #B4B0A8
+  --border-strong #DCD7CC
+  --accent-hover #234AD1
+  --accent-soft rgba(59, 102, 245, 0.08)
+  --selection-bg rgba(59, 102, 245, 0.16)
 
-  --font-sans       -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'PingFang SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif
-  --font-mono       'JetBrains Mono', 'SF Mono', 'Cascadia Code', Consolas, 'Liberation Mono', monospace
+  --bg var(--bg-color)
+  --bg-elevated var(--surface-strong)
+  --fg var(--text-main)
+  --fg-heading var(--text-heading)
+  --fg-muted var(--text-muted)
+  --fg-subtle var(--text-subtle)
+  --border var(--border-color)
+  --accent var(--accent-color)
+  --accent-bg var(--accent-soft)
+  --accent-bg-hover rgba(59, 102, 245, 0.14)
+  --code-fg var(--text-main)
+  --code-inline-bg #ECE8DF
+
+  --font-serif Georgia, 'Noto Serif SC', SimSun, serif
+  --font-sans 'Avenir Next', 'Gill Sans', 'PingFang SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif
+  --font-mono 'JetBrains Mono', 'Fira Code', Consolas, 'Liberation Mono', monospace
 
   --sp-1  4px
   --sp-2  8px
@@ -36,8 +44,10 @@
   --sp-16 64px
   --sp-20 80px
 
-  --content-width   760px
-  --layout-width    1100px
+  --content-width   680px
+  --layout-width    1180px
+  --rail-width      minmax(56px, 9vw)
+  --void-width      minmax(220px, 34vw)
 
   --radius-sm 2px
   --radius-md 4px
@@ -49,60 +59,62 @@
   --lh-relaxed 1.8
 
   --transition-base 200ms ease
+  --transition-slow 460ms cubic-bezier(0.22, 1, 0.36, 1)
 
-// System-level dark mode
 @media (prefers-color-scheme: dark)
   :root
-    --bg              #1A1A1C
-    --bg-elevated     #222224
-    --fg              #E4E2DC
-    --fg-heading      #F5F2EC
-    --fg-muted        #9A9A96
-    --fg-subtle       #6E6E6A
-    --border          #2C2C30
-    --border-strong   #3E3E42
-    --accent          #D4846E
-    --accent-hover    #E8987E
-    --accent-bg       rgba(212, 132, 110, 0.12)
-    --accent-bg-hover rgba(212, 132, 110, 0.2)
-    --code-bg         #1E1E22
-    --code-fg         #E4E2DC
-    --code-inline-bg  #26262A
-    --selection-bg    rgba(212, 132, 110, 0.22)
+    --bg-color #1A1A18
+    --text-main #E3E1DC
+    --text-muted #706E6A
+    --border-color #2E2E2C
+    --accent-color #5C82FF
+    --code-bg #20201E
+    --surface-color rgba(32, 32, 30, 0.62)
+    --surface-strong #20201E
+    --text-heading #F0EEE8
+    --text-subtle #5D5B56
+    --border-strong #3A3A36
+    --accent-hover #86A2FF
+    --accent-soft rgba(92, 130, 255, 0.12)
+    --selection-bg rgba(92, 130, 255, 0.22)
+    --accent-bg-hover rgba(92, 130, 255, 0.2)
+    --code-fg var(--text-main)
+    --code-inline-bg #282823
 
-// Manual override — user-selected theme wins over system
 html[data-theme='light']
-  --bg              #FCFCFA
-  --bg-elevated     #FFFFFF
-  --fg              #333333
-  --fg-heading      #1A1A1A
-  --fg-muted        #888888
-  --fg-subtle       #A09E96
-  --border          #E8E5DF
-  --border-strong   #D8D5CE
-  --accent          #BC4A3C
-  --accent-hover    #A03D30
-  --accent-bg       rgba(188, 74, 60, 0.06)
-  --accent-bg-hover rgba(188, 74, 60, 0.12)
-  --code-bg         #F4F3ED
-  --code-fg         #333333
-  --code-inline-bg  #EEEBE0
-  --selection-bg    rgba(188, 74, 60, 0.18)
+  --bg-color #F9F8F6
+  --text-main #2D2D2D
+  --text-muted #8C8A85
+  --border-color #EBE8E2
+  --accent-color #3B66F5
+  --code-bg #F2EFE9
+  --surface-color rgba(255, 255, 255, 0.42)
+  --surface-strong #FFFFFF
+  --text-heading #202020
+  --text-subtle #B4B0A8
+  --border-strong #DCD7CC
+  --accent-hover #234AD1
+  --accent-soft rgba(59, 102, 245, 0.08)
+  --selection-bg rgba(59, 102, 245, 0.16)
+  --accent-bg-hover rgba(59, 102, 245, 0.14)
+  --code-fg var(--text-main)
+  --code-inline-bg #ECE8DF
 
 html[data-theme='dark']
-  --bg              #1A1A1C
-  --bg-elevated     #222224
-  --fg              #E4E2DC
-  --fg-heading      #F5F2EC
-  --fg-muted        #9A9A96
-  --fg-subtle       #6E6E6A
-  --border          #2C2C30
-  --border-strong   #3E3E42
-  --accent          #D4846E
-  --accent-hover    #E8987E
-  --accent-bg       rgba(212, 132, 110, 0.12)
-  --accent-bg-hover rgba(212, 132, 110, 0.2)
-  --code-bg         #1E1E22
-  --code-fg         #E4E2DC
-  --code-inline-bg  #26262A
-  --selection-bg    rgba(212, 132, 110, 0.22)
+  --bg-color #1A1A18
+  --text-main #E3E1DC
+  --text-muted #706E6A
+  --border-color #2E2E2C
+  --accent-color #5C82FF
+  --code-bg #20201E
+  --surface-color rgba(32, 32, 30, 0.62)
+  --surface-strong #20201E
+  --text-heading #F0EEE8
+  --text-subtle #5D5B56
+  --border-strong #3A3A36
+  --accent-hover #86A2FF
+  --accent-soft rgba(92, 130, 255, 0.12)
+  --selection-bg rgba(92, 130, 255, 0.22)
+  --accent-bg-hover rgba(92, 130, 255, 0.2)
+  --code-fg var(--text-main)
+  --code-inline-bg #282823

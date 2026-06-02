@@ -1,87 +1,133 @@
-// mobile — narrow viewport overrides
+// mobile — collapse paper grid and keep controls reachable
 
-@media (max-width: 1024px)
-  .main
-    padding var(--sp-3) var(--sp-4) 0
+@media (max-width: 1080px)
+  .paper-grid
+    grid-template-columns minmax(52px, 68px) minmax(0, var(--content-width))
+    gap clamp(16px, 3vw, 28px)
+    max-width 860px
 
-  .post-layout.has-toc
-    grid-template-columns 1fr
-    gap var(--sp-6)
+  .ambient-nav
+    padding 22px clamp(18px, 5vw, 34px)
+    max-width none
 
-  .toc
-    position static
-    max-height none
-    margin-bottom var(--sp-6)
-    border 1px solid var(--border)
-    border-radius var(--radius-md)
-    padding 0
+  .timeline-page
+    grid-template-columns minmax(52px, 68px) minmax(0, 1fr)
+    gap clamp(16px, 3vw, 28px)
+    max-width 920px
 
-  .toc > summary
-    display list-item
-    padding var(--sp-3) var(--sp-5)
-    cursor pointer
-    font-weight 600
-    color var(--fg-heading)
-    list-style-position inside
+  .nav-container
+    grid-template-columns minmax(42px, 1fr) auto minmax(42px, 1fr)
 
-  .toc[open] > summary
-    border-bottom 1px solid var(--border)
+  .nav-links
+    justify-content center
 
-  .toc-body
-    padding var(--sp-3) var(--sp-5)
+  .right-void
+    display none
+
+  .main-container
+    padding-top 104px
+
+  .paper-grid .reading-column,
+  .timeline-page .reading-column
+    grid-column 2 / 3
+    max-width none
+
+  .post-paper-grid,
+  .page-paper-grid
+    max-width 860px
+
+@media (max-width: 760px)
+  .timeline-page
+    display block
+    max-width var(--content-width)
+
+  .coordinate-rail
+    display none
+
+  .timeline-page .reading-column
+    max-width none
+
+  .paper-grid
+    display block
 
 @media (max-width: 640px)
+  .timeline-filter
+    right 18px
+    bottom 78px
+    max-width calc(100vw - 36px)
+    padding 9px 12px
+
   html
     font-size 15px
 
-  .header-container
-    padding 1.5rem var(--sp-4) 3rem
+  .ambient-nav
+    padding 18px 18px
+    gap 14px
 
-  .header-left-spacer
-    display none
+  .nav-links
+    gap 18px
 
-  .header-right-controls
-    width auto
+  .nav-link
+    font-size 13px
 
-  .main-nav
-    gap 1rem
-    flex-wrap wrap
+  .avatar-logo-img
+    width 30px
+    height 30px
 
-  .main
-    padding var(--sp-3) var(--sp-4) 0
+  .theme-toggle
+    width 30px
+    height 30px
 
-  .card
-    margin-bottom var(--sp-10)
-    border-bottom 1px solid var(--border)
+  .main-container
+    padding 92px 18px 0
 
-  .card:last-child
-    border-bottom none
+  .timeline-year-mark
+    min-height 72px
 
-  .article-title
-    font-size 1.5rem !important
+  .timeline-item
+    padding 16px 0 20px
+
+  .item-title
+    font-size 1.5rem
+
+  .timeline-item.is-active .item-title
+    max-width none
+    font-size 2.2rem
+
+  .timeline-item.is-active
+    max-width none
+
+  .item-excerpt
+    font-size 13px
 
   .post-title
-    font-size 1.75rem !important
+    font-size 2.15rem
 
-  .prose pre
-    font-size 12.5px
+  .post-nav
+    grid-template-columns 1fr
 
-  .prose pre > code
-    padding var(--sp-4)
+  .post-nav .next
+    text-align left
 
-  .category-index
-    max-width none
+  .drawer-trigger
+    right 18px
+    bottom 18px
 
-  .tag-cloud-naked
-    max-width none
-    gap 1rem 1.5rem
+  .drawer-panel
+    width 100vw
+
+  .pagination
+    flex-wrap wrap
 
   .archive-row
     flex-direction column
-    align-items flex-start !important
-    gap var(--sp-1) !important
+    align-items flex-start
+    gap 2px
 
-  .site-footer
-    margin-top var(--sp-16)
-    padding var(--sp-8) var(--sp-4)
-    font-size 12px
+@media (prefers-reduced-motion: reduce)
+  *,
+  *::before,
+  *::after
+    animation-duration 1ms !important
+    transition-duration 1ms !important
+    scroll-behavior auto !important

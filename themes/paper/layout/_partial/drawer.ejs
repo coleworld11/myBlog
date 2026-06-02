@@ -1,0 +1,44 @@
+<%
+  var categories = site.categories ? site.categories.sort('-length') : [];
+  var tags = site.tags ? site.tags.sort('-length') : [];
+%>
+<button class="drawer-trigger index-trigger" type="button" data-drawer-trigger aria-expanded="false" aria-controls="origamiDrawer">[ Index ]</button>
+
+<aside class="origami-drawer" id="origamiDrawer" aria-label="分类与标签索引" aria-hidden="true">
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <div>
+        <p class="drawer-kicker">Paper Index</p>
+        <h2>分类与标签</h2>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="关闭索引">×</button>
+    </div>
+
+    <% if (categories && categories.length) { %>
+      <section class="drawer-section" aria-labelledby="drawerCategories">
+        <h3 id="drawerCategories">Categories</h3>
+        <div class="drawer-categories">
+          <% categories.each(function (cat) { %>
+            <a class="drawer-category" href="<%- url_for(cat.path) %>" style="--weight:<%= Math.min(cat.posts.length, 12) %>">
+              <span><%= cat.name %></span>
+              <sup><%= cat.posts.length %></sup>
+            </a>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (tags && tags.length) { %>
+      <section class="drawer-section" aria-labelledby="drawerTags">
+        <h3 id="drawerTags">Tags</h3>
+        <div class="drawer-tags">
+          <% tags.each(function (tag) { %>
+            <a class="drawer-tag" href="<%- url_for(tag.path) %>" data-tag-filter="<%= tag.name %>">
+              #<%= tag.name %><sup><%= tag.posts.length %></sup>
+            </a>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+  </div>
+</aside>

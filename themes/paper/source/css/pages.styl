@@ -2,20 +2,22 @@
 
 // ---- Shared page header ----
 .page-head
-  margin-bottom var(--sp-12)
-  text-align center
+  max-width var(--content-width)
+  margin 0 auto var(--sp-12)
+  text-align left
 
 .page-head h1
-  font-size 2rem
-  font-weight 700
-  color var(--fg-heading)
-  letter-spacing -0.02em
+  font-family var(--font-serif)
+  font-size clamp(2.2rem, 6vw, 4rem)
+  font-weight 500
+  color var(--text-heading)
+  letter-spacing 0
   margin 0 0 var(--sp-2)
 
 .page-head .page-sub
-  color var(--fg-muted)
+  color var(--text-muted)
   font-size 0.95rem
-  letter-spacing 0.04em
+  letter-spacing 0
 
 // ---- Archive / timeline ----
 .archive
@@ -24,10 +26,11 @@
 
 .archive-year
   margin var(--sp-12) 0 var(--sp-5)
+  font-family var(--font-serif)
   font-size 1.25rem
-  font-weight 700
-  color var(--fg-heading)
-  letter-spacing -0.02em
+  font-weight 500
+  color var(--text-heading)
+  letter-spacing 0
 
 .archive-year:first-child
   margin-top 0
@@ -37,26 +40,26 @@
   align-items baseline
   gap var(--sp-5)
   padding var(--sp-2) 0
-  color var(--fg)
+  color var(--text-main)
   font-size 15px
 
 .archive-date
   font-variant-numeric tabular-nums
-  color var(--fg-muted)
+  color var(--text-muted)
   font-size 13px
   min-width 56px
   flex-shrink 0
 
 .archive-title
   flex 1
-  color var(--fg)
+  color var(--text-main)
   overflow hidden
   text-overflow ellipsis
   white-space nowrap
   transition color var(--transition-base)
 
 .archive-title:hover
-  color var(--accent)
+  color var(--accent-color)
 
 // ---- Category index (book-index style) ----
 // Clean single-column list. Hover: page floats slightly right with
@@ -74,12 +77,12 @@
   align-items center
   padding var(--sp-4) var(--sp-6)
   border-radius var(--radius-md)
-  color var(--fg)
+  color var(--text-main)
   background transparent
   transition background-color var(--transition-base), transform var(--transition-base)
 
 .category-index-item:hover
-  background var(--bg-elevated)
+  background var(--surface-color)
   transform translateX(6px)
 
 .category-index-item .name
@@ -87,7 +90,7 @@
   font-weight 500
 
 .category-index-item .count
-  color var(--fg-subtle)
+  color var(--text-subtle)
   font-family var(--font-mono)
   font-size 0.9rem
   font-variant-numeric tabular-nums
@@ -102,7 +105,7 @@
   display flex
   flex-wrap wrap
   gap 1.5rem 2.5rem
-  justify-content center
+  justify-content flex-start
   max-width 800px
   margin 3rem auto
 
@@ -117,29 +120,29 @@
   transition all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
 
 .tag-item-naked .tag-prefix
-  color #D1D1D1
+  color var(--text-subtle)
   font-size 0.85rem
   margin-right 0.15rem
   font-weight 300
 
 .tag-item-naked .tag-name
-  color #555555
+  color var(--text-main)
   font-size 1.05rem
   font-weight 400
   letter-spacing 0.02em
 
 .tag-item-naked .tag-count
-  color #A0A0A0
+  color var(--text-subtle)
   font-size 0.75rem
   margin-left 0.25rem
   font-weight 300
 
 .tag-item-naked:hover .tag-name
-  color #000000
+  color var(--accent-color)
 
 .tag-item-naked:hover .tag-prefix,
 .tag-item-naked:hover .tag-count
-  color #888888
+  color var(--text-muted)
 
 .tag-item-naked::after
   content ''
@@ -148,42 +151,11 @@
   left 0
   width 0%
   height 1px
-  background-color #000000
+  background-color var(--accent-color)
   transition width 0.3s ease
 
 .tag-item-naked:hover::after
   width 100%
-
-// Dark mode — invert the gray scale
-@media (prefers-color-scheme: dark)
-  .tag-item-naked .tag-prefix
-    color #5A5A5A
-  .tag-item-naked .tag-name
-    color #B0B0B0
-  .tag-item-naked .tag-count
-    color #6A6A6A
-  .tag-item-naked:hover .tag-name
-    color #FFFFFF
-  .tag-item-naked:hover .tag-prefix,
-  .tag-item-naked:hover .tag-count
-    color #999999
-  .tag-item-naked::after
-    background-color #FFFFFF
-
-html[data-theme='dark']
-  .tag-item-naked .tag-prefix
-    color #5A5A5A
-  .tag-item-naked .tag-name
-    color #B0B0B0
-  .tag-item-naked .tag-count
-    color #6A6A6A
-  .tag-item-naked:hover .tag-name
-    color #FFFFFF
-  .tag-item-naked:hover .tag-prefix,
-  .tag-item-naked:hover .tag-count
-    color #999999
-  .tag-item-naked::after
-    background-color #FFFFFF
 
 // ---- Single taxonomy (tag/category) — post list ----
 .taxonomy-posts
@@ -191,7 +163,7 @@ html[data-theme='dark']
   margin 0 auto
 
 .taxonomy-posts .archive-row
-  border-bottom 1px solid var(--border)
+  border-bottom 1px solid var(--border-color)
 
 .taxonomy-posts .archive-row:last-child
   border-bottom none

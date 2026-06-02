@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="<%= config.language || 'zh-CN' %>">
 <%- partial('_partial/head') %>
-<body>
-  <%- partial('_partial/header') %>
-  <main class="main">
-    <%- body %>
-  </main>
-  <%- partial('_partial/footer') %>
+<body class="<%= is_home && is_home() ? 'is-home' : '' %> <%= theme.paper_effects && theme.paper_effects.grain_noise === false ? 'no-grain' : '' %>">
+  <div class="site-wrapper">
+    <%- partial('_partial/nav') %>
+    <main class="main-container">
+      <%- body %>
+    </main>
+    <%- partial('_partial/footer') %>
+    <%- partial('_partial/drawer') %>
+  </div>
 </body>
 </html>

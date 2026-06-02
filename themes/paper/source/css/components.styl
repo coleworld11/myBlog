@@ -1,307 +1,711 @@
-// components — card / chip / pagination / toc / theme-toggle / post-nav
+// components — chrono-line, expanding sheet, drawer, pagination
 
-// ---- Home feed (article list + pagination wrapper) ----
-// Caps to content-width so the stream feels focused on wide monitors,
-// while detail pages with TOC still go full layout-width.
-.feed
-  max-width var(--content-width)
-  margin 0 auto
-
-// ---- Article list item (de-carded — whitespace-driven) ----
-.card
-  background transparent
-  border none
-  border-bottom 1px solid var(--border)
-  border-radius 0
-  padding 0
-  margin-bottom var(--sp-15)
-
-.card:last-child
-  margin-bottom 0
-  border-bottom none
-
-.article-meta-top
-  display flex
-  align-items center
-  gap var(--sp-3)
-  color var(--fg-muted)
-  font-size 13px
-  margin-bottom var(--sp-2)
-
-.article-meta-top time
-  font-variant-numeric tabular-nums
-
-.article-title
-  font-size 1.75rem
-  font-weight 700
-  line-height var(--lh-tight)
-  letter-spacing -0.02em
-  margin 0 0 var(--sp-4)
-  color var(--fg-heading)
-
-.article-title a
-  color inherit
-  transition opacity var(--transition-base)
-
-.article-title a:hover
-  opacity 0.7
-  color inherit
-
-.article-excerpt
-  color var(--fg)
-  line-height var(--lh-relaxed)
-  font-size 15px
-  letter-spacing 0.01em
-  max-width 65ch
-
-.article-excerpt p
-  margin 0
-
-.article-excerpt p + p
-  margin-top var(--sp-3)
-
-.read-more
-  margin-top var(--sp-5)
-
-.read-more a
+.timeline-filter
+  position fixed
+  right 24px
+  bottom 92px
+  z-index 1002
   display inline-flex
   align-items center
-  gap 6px
-  font-size 14px
-  color var(--fg-muted)
+  flex-wrap wrap
+  gap 10px
+  margin 0
+  max-width min(calc(100vw - 40px), 360px)
+  color var(--text-muted)
+  font-family var(--font-mono)
+  font-size 0.78rem
+  line-height 1
+  letter-spacing 0.04em
+  border 1px solid var(--border-color)
+  padding 10px 14px
+  border-radius 2px
+  background-color var(--surface-color)
+  box-shadow 0 10px 28px rgba(20, 18, 14, 0.06)
+  backdrop-filter blur(12px)
+  animation fadeIn 300ms ease
+  transition opacity 260ms ease, transform 360ms cubic-bezier(0.16, 1, 0.3, 1), border-color var(--transition-base), box-shadow var(--transition-base)
+
+.timeline-filter[hidden]
+  display none
+
+.timeline-filter::before
+  content ''
+  width 6px
+  height 6px
+  border-radius 50%
+  background var(--accent-color)
+  box-shadow 0 0 0 4px var(--accent-soft)
+
+.filter-kicker
+  color var(--text-subtle)
+  font-size 0.72rem
+  letter-spacing 0.08em
+  text-transform uppercase
+
+.timeline-filter strong
+  color var(--accent-color)
   font-weight 500
-  transition color var(--transition-base), transform var(--transition-base)
+  letter-spacing 0
 
-.read-more a:hover
-  color var(--fg-heading)
-  transform translateX(2px)
+.filter-clear
+  color var(--accent-color)
+  border 0
+  margin-left 2px
+  padding 0 0 0 10px
+  border-left 1px solid var(--border-color)
+  font-size 0.76rem
 
-// ---- Chips (tags / categories) ----
-.chip-list
+.filter-clear:hover
+  color var(--accent-color)
+  text-decoration underline
+
+body.drawer-open .timeline-filter
+  opacity 0
+  pointer-events none
+  transform translateY(8px)
+
+.timeline-stream
+  position relative
+  z-index 10
+
+.timeline-year-mark
+  position relative
+  z-index 1
+  max-width var(--content-width)
+  min-height clamp(68px, 9vw, 104px)
+  display flex
+  align-items flex-end
+  margin 2.8rem 0 1.1rem
+  user-select none
+  overflow hidden
+  transition opacity 360ms ease, min-height 460ms cubic-bezier(0.16, 1, 0.3, 1), margin 460ms cubic-bezier(0.16, 1, 0.3, 1), transform 460ms cubic-bezier(0.16, 1, 0.3, 1)
+
+body.has-expanded-post .timeline-year-mark
+  cursor pointer
+
+.timeline-year-mark span
+  position absolute
+  left -4px
+  bottom 0
+  font-family var(--font-serif)
+  display block
+  font-size clamp(5.2rem, 11vw, 7rem)
+  font-weight 700
+  line-height 1
+  color var(--text-main)
+  opacity 0.06
+  letter-spacing 0
+  user-select none !important
+  pointer-events none
+  transform translateX(-4px)
+  transition opacity 360ms ease, font-size 460ms cubic-bezier(0.16, 1, 0.3, 1), transform 460ms cubic-bezier(0.16, 1, 0.3, 1), left 460ms cubic-bezier(0.16, 1, 0.3, 1)
+
+html[data-theme='light'] .timeline-year-mark span
+  opacity 0.06
+
+@media (prefers-color-scheme: dark)
+  .timeline-year-mark span
+    opacity 0.1
+
+html[data-theme='dark'] .timeline-year-mark span
+  opacity 0.1
+
+.timeline-item
+  position relative
+  width 100%
+  max-width var(--content-width)
+  margin 0
+  padding 12px 0 16px
+  border-bottom 1px solid var(--border-color)
+  overflow hidden
+  transform-origin top left
+  transition transform 420ms cubic-bezier(0.16, 1, 0.3, 1), opacity 320ms ease, max-width 420ms cubic-bezier(0.16, 1, 0.3, 1), margin 420ms cubic-bezier(0.16, 1, 0.3, 1), padding 420ms cubic-bezier(0.16, 1, 0.3, 1), border-color var(--transition-base)
+
+.timeline-item.is-dimmed
+  opacity 0.08 !important
+  margin-top 0.12rem !important
+  margin-bottom 0.12rem !important
+  padding-top 0.16rem
+  padding-bottom 0.16rem
+  border-bottom-color transparent
+  transform scale(0.985) translateX(2px)
+
+.timeline-item.is-dimmed .item-excerpt,
+.timeline-item.is-dimmed .item-tags,
+.timeline-item.is-dimmed .item-body-expanded,
+.timeline-item.is-dimmed .post-collapse-wrapper
+  display none !important
+  height 0 !important
+  overflow hidden
+
+.timeline-item.is-dimmed .item-meta
+  margin-bottom 0.12rem !important
+  font-size 0.68rem
+  line-height 1.05
+  opacity 0.84
+
+.timeline-item.is-dimmed .item-date,
+.timeline-item.is-dimmed .item-category
+  font-size 0.72rem !important
+
+.timeline-item.is-dimmed .item-title
+  max-width 60ch
+  font-size clamp(0.92rem, 1.2vw, 1rem)
+  line-height 1.08
+  letter-spacing 0.01em
+
+.timeline-item.is-dimmed .item-title a
+  display block
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+  pointer-events none
+  cursor default
+
+.timeline-item.is-matched
+  opacity 1 !important
+  transform scale(1)
+
+.timeline-item.is-active
+  opacity 1
+  max-width 800px
+  margin-top 0
+  margin-bottom 0
+  padding-top 16px
+  padding-bottom 22px
+  border-color var(--border-strong)
+
+.timeline-item.is-active .item-excerpt
+  display block
+
+.timeline-item.is-active .item-tags
+  display flex
+
+.timeline-item.is-active .item-body-expanded:not([hidden])
+  display grid
+
+.timeline-item.is-active .item-title
+  max-width 800px
+  font-size 2.45rem
+  line-height 1.18
+  text-wrap balance
+
+.timeline-stream .timeline-item
+  .item-meta
+    display block
+    cursor pointer
+    color var(--text-muted)
+    margin-bottom 0.55rem
+    font-family var(--font-mono)
+    line-height 1.2
+    font-variant-numeric tabular-nums
+
+  .item-date,
+  .item-category
+    display inline-block
+    font-size 0.9rem
+
+  .item-date
+    margin-right 6px
+    transition color 200ms ease
+
+  .item-category
+    color var(--text-subtle)
+    font-family var(--font-sans)
+    transition color 200ms ease
+
+  .item-meta:hover
+    .item-date
+      color var(--text-main) !important
+
+    .item-category
+      color var(--accent-color) !important
+
+.item-title
+  margin 0
+  font-family var(--font-serif)
+  font-size clamp(1.45rem, 2.5vw, 2.05rem)
+  font-weight 500
+  line-height 1.28
+  letter-spacing 0
+
+.item-title a
+  color var(--text-main)
+  text-decoration-thickness 1px
+  text-underline-offset 0.18em
+  transition color var(--transition-base)
+
+.item-title a:hover
+  color var(--accent-color)
+
+.item-excerpt
+  max-width 62ch
+  margin-top 14px
+  color var(--text-muted)
+  font-size 14px
+  line-height 1.72
+
+.item-excerpt > * + *
+  margin-top 12px
+
+.item-tags
   display flex
   flex-wrap wrap
-  gap var(--sp-2)
-  margin-top var(--sp-3)
+  gap 10px 14px
+  margin-top 14px
+  font-size 13px
+  line-height 1.5
 
-.chip
+.item-tags a
+  color var(--text-subtle)
+  letter-spacing 0.01em
+
+.item-tags a:hover
+  color var(--accent-color)
+
+.item-body-expanded
+  margin-top 18px
+  display grid
+  grid-template-rows 1fr
+  max-width 800px
+  padding-bottom 5rem
+  content-visibility auto
+  contain-intrinsic-size auto 720px
+  animation sheetIn 420ms cubic-bezier(0.22, 1, 0.36, 1)
+
+.item-body-expanded[hidden]
+  display none
+
+.expanded-sheet
+  max-width 800px
+  padding 22px 0 8px
+  border-top 1px solid var(--border-color)
+
+.expanded-sheet.prose
+  font-size 1.05rem
+  line-height 1.85
+
+.expanded-sheet.prose > * + *
+  margin-top 20px
+
+.expanded-sheet.prose h1,
+.expanded-sheet.prose h2,
+.expanded-sheet.prose h3,
+.expanded-sheet.prose h4
+  margin-top 36px
+  margin-bottom 14px
+
+.expanded-sheet.prose h1
+  font-size 2.1rem
+
+.expanded-sheet.prose h2
+  font-size 1.75rem
+
+.expanded-sheet.prose h3
+  font-size 1.38rem
+
+.expanded-sheet.prose img
+  width 100%
+  min-height 200px
+  margin 1.2rem 0
+  object-fit cover
+  background var(--code-bg)
+
+.post-collapse-wrapper
+  display flex
+  align-items center
+  justify-content flex-start
+  margin-top 4.5rem
+  padding-top 2rem
+  border-top 1px dashed var(--border-color)
+
+.post-collapse-trigger
+  font-family var(--font-mono)
+  font-size 0.8rem
+  letter-spacing 0.08em
+  color var(--text-muted)
+  cursor pointer
   display inline-flex
   align-items center
-  font-size 12px
-  color var(--fg-muted)
-  background var(--code-inline-bg)
-  padding 3px 10px
-  border-radius 6px
-  transition color var(--transition-base), background var(--transition-base), transform var(--transition-base)
+  transition color 0.25s ease
 
-.chip .hash
-  color var(--fg-subtle)
-  margin-right 1px
-  font-weight 400
+.post-collapse-trigger::before
+  content '■'
+  font-size 0.55rem
+  margin-right 8px
+  color var(--text-muted)
+  transition transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)
 
-.chip:hover
-  color var(--fg-heading)
-  background var(--border)
+.post-collapse-trigger:hover
+  color var(--text-main)
+
+.post-collapse-trigger:hover::before
+  transform scale(1.25)
+
+.timeline-stream.is-filtering .timeline-item
+  transition-timing-function cubic-bezier(0.16, 1, 0.3, 1)
+
+.timeline-stream.is-filtering .timeline-item.is-matched
+  margin-bottom 1.75rem
+
+.timeline-stream.is-filtering .timeline-year-mark
+  min-height 28px
+  margin 0.45rem 0 0.2rem
+
+.timeline-stream.is-filtering .timeline-year-mark span
+  left 0
+  font-size clamp(1.08rem, 2.6vw, 1.45rem)
+  opacity 0.14
+  transform translateX(0)
+
+.timeline-stream.is-filtering .timeline-year-mark.is-matched
+  opacity 1
+
+.timeline-stream.is-filtering .timeline-year-mark.is-matched span
+  opacity 0.16
+
+.timeline-stream.is-filtering .timeline-year-mark.is-dimmed
+  min-height 12px
+  margin 0.1rem 0
   transform translateY(-1px)
 
-.chip.chip-cat
-  color var(--fg-muted)
+.timeline-stream.is-filtering .timeline-year-mark.is-dimmed span
+  font-size 0.92rem
+  opacity 0.05
+
+.loading,
+.load-error
+  color var(--text-muted)
+  font-size 14px
+  padding 20px 0
+
+@keyframes sheetIn
+  from
+    opacity 0
+    transform translateY(10px)
+  to
+    opacity 1
+    transform translateY(0)
+
+@keyframes fadeIn
+  from
+    opacity 0
+    transform translateY(-4px)
+  to
+    opacity 1
+    transform translateY(0)
+
+.drawer-trigger
+  position fixed
+  right 24px
+  bottom 28px
+  z-index 1001
+  color var(--text-muted)
+  font-family var(--font-mono)
+  font-size 0.8rem
+  text-transform uppercase
+  letter-spacing 0.12em
+  border 1px solid var(--border-color)
+  border-radius 2px
+  padding 10px 22px
+  background-color transparent
+  box-shadow 0 0 0 1px rgba(255, 255, 255, 0.28) inset
+  transition color var(--transition-base), border-color var(--transition-base), background-color var(--transition-base), transform var(--transition-base), opacity var(--transition-base)
+
+.drawer-trigger:hover
+  color var(--text-main)
+  border-color var(--text-muted)
+  background-color var(--code-bg)
+  transform translateY(-2px)
+
+.drawer-trigger.is-hidden
+  opacity 0
+  pointer-events none
+  transform translateY(4px)
+
+html[data-theme='dark'] .drawer-trigger
+  box-shadow 0 0 0 1px rgba(26, 26, 24, 0.28) inset
+
+@media (min-width: 1320px)
+  .timeline-filter
+    right calc((100vw - 1320px) / 2 + 24px)
+
+  .drawer-trigger
+    right calc((100vw - 1320px) / 2 + 24px)
+
+.origami-drawer
+  position fixed
+  inset 0
+  z-index 1000
+  pointer-events none
+  visibility hidden
+  transition visibility 0s linear 360ms
+
+.origami-drawer.is-open
+  pointer-events auto
+  visibility visible
+  transition-delay 0s
+
+.origami-drawer::before
+  content ''
+  position absolute
+  inset 0
+  background rgba(45, 45, 45, 0.035)
+  opacity 0
+  transition opacity var(--transition-slow)
+
+html[data-theme='dark'] .origami-drawer::before
+  background rgba(0, 0, 0, 0.22)
+
+.origami-drawer.is-open::before
+  opacity 1
+
+.drawer-panel
+  position absolute
+  top 0
+  right 0
+  width 92vw
+  max-width 440px
+  height 100%
+  padding clamp(28px, 6vw, 64px)
+  background var(--bg-color)
+  border-left 1px solid var(--border-color)
+  box-shadow -15px 0 40px rgba(0, 0, 0, 0.015), -80px 0 120px rgba(45, 45, 45, 0.035)
+  transform translateX(100%)
+  transition transform 400ms cubic-bezier(0.16, 1, 0.3, 1)
+  overflow-y auto
+
+.origami-drawer.is-open .drawer-panel
+  transform translateX(0)
+
+.drawer-head
+  display flex
+  justify-content space-between
+  gap 18px
+  align-items flex-start
+  margin-bottom 52px
+
+.drawer-kicker
+  margin 0 0 8px
+  color var(--text-muted)
+  font-family var(--font-mono)
+  font-size 11px
+  letter-spacing 0.08em
+  text-transform uppercase
+
+.drawer-head h2
+  font-family var(--font-serif)
+  font-size 2rem
   font-weight 500
-  background none
-  padding 0
+  line-height 1.18
 
-.chip.chip-cat:hover
-  color var(--fg-heading)
-  background none
-  transform none
+.drawer-close
+  width 32px
+  height 32px
+  color var(--text-muted)
+  font-size 24px
+  line-height 1
 
-// ---- Pagination ----
+.drawer-close:hover
+  color var(--accent-color)
+
+.drawer-section + .drawer-section
+  margin-top 56px
+
+.drawer-section h3
+  margin 0 0 24px
+  color var(--text-muted)
+  font-family var(--font-mono)
+  font-size 11px
+  letter-spacing 0.08em
+  text-transform uppercase
+
+.drawer-categories
+  display flex
+  flex-wrap wrap
+  gap 20px 28px
+  align-items baseline
+
+.drawer-category
+  color var(--text-main)
+  font-family var(--font-serif)
+  font-size calc(1rem + (var(--weight) * 0.045rem))
+  line-height 1.2
+
+.drawer-category sup,
+.drawer-tag sup
+  margin-left 3px
+  color var(--text-subtle)
+  font-family var(--font-mono)
+  font-size 0.62em
+
+.drawer-category:hover
+  color var(--accent-color)
+
+.drawer-tags
+  display flex
+  flex-wrap wrap
+  gap 18px 24px
+
+.drawer-tag
+  color var(--text-muted)
+  font-size 15px
+  line-height 1.45
+  letter-spacing 0.01em
+
+.drawer-tag:hover,
+.drawer-tag.is-active
+  color var(--accent-color)
+
 .pagination
   display flex
   align-items center
-  justify-content center
-  gap var(--sp-3)
-  margin-top var(--sp-16)
-  padding-top var(--sp-8)
-  border-top 1px solid var(--border)
-  font-size 14px
+  justify-content flex-start
+  gap 10px
+  margin-top 48px
+  padding-top 28px
+  border-top 1px solid var(--border-color)
+  font-size 13px
+  color var(--text-muted)
 
-.pagination a, .pagination span
-  min-width 32px
-  height 32px
+.pagination a,
+.pagination span
+  min-width 30px
+  min-height 30px
   display inline-flex
   align-items center
   justify-content center
-  padding 0 var(--sp-3)
-  border 1px solid var(--border)
-  border-radius var(--radius-sm)
-  color var(--fg-muted)
-  transition all var(--transition-base)
+  padding 0 8px
+  border 1px solid transparent
+  color inherit
+  font-variant-numeric tabular-nums
 
 .pagination a:hover
-  color var(--accent)
-  border-color var(--accent)
+  color var(--accent-color)
+  border-color var(--border-color)
 
 .pagination .pagination-current
-  background var(--accent)
-  color #fff
-  border-color var(--accent)
-
-.pagination .pagination-ellipsis
-  border none
-
-// ---- Post layout (with TOC on wide screens) ----
-// Default: narrow column for posts without TOC (pages, short posts)
-// .has-toc: two-column grid with TOC sidebar on wide screens
-
-.post-layout
-  max-width var(--content-width)
-  margin 0 auto
-
-.post-layout.has-toc
-  max-width var(--layout-width)
-  display grid
-  grid-template-columns minmax(0, var(--content-width)) 220px
-  gap var(--sp-15)
-  align-items start
-
-.post
-  min-width 0    // let flex/grid shrink when overflowing
+  color var(--text-heading)
+  border-color var(--border-color)
 
 .post-header
-  margin-bottom var(--sp-10)
+  margin-bottom 42px
 
 .post-title
-  font-size 2.25rem
-  font-weight 700
-  line-height var(--lh-tight)
-  letter-spacing -0.02em
-  margin 0 0 var(--sp-3)
+  font-family var(--font-serif)
+  font-size clamp(2.25rem, 5vw, 4.2rem)
+  font-weight 500
+  letter-spacing 0
+  line-height 1.08
+  margin 0 0 18px
 
 .post-meta
   display flex
   flex-wrap wrap
   align-items center
-  gap var(--sp-3)
+  gap 10px
+  color var(--text-muted)
   font-size 13px
-  color var(--fg-muted)
 
 .post-meta time
+  font-family var(--font-mono)
   font-variant-numeric tabular-nums
 
-.post-meta .dot
-  color var(--fg-subtle)
+.post-meta-footer,
+.prose .post-meta-footer
+  margin-top 44px
+  padding-top 18px
+  border-top 1px solid var(--border-color)
+  display flex
+  flex-wrap wrap
+  gap 10px 18px
+  align-items baseline
+  color var(--text-muted)
+  font-size 13px
 
-// ---- TOC ----
-.toc
-  position sticky
-  top var(--sp-8)
-  max-height calc(100vh - var(--sp-16))
-  overflow-y auto
-  font-size 12px
-  line-height 1.55
+.footer-meta-group
+  display flex
+  flex-wrap wrap
+  gap 10px 14px
+  align-items baseline
 
-.toc-title
-  font-weight 600
-  color var(--fg-muted)
-  margin-bottom var(--sp-3)
-  font-size 11px
-  text-transform uppercase
-  letter-spacing 0.1em
+.footer-category,
+.prose .footer-category
+  color var(--text-muted)
+  font-family var(--font-serif)
+  border-bottom 0
+  transition color var(--transition-base)
 
-.toc ol
-  list-style none
-  padding 0
-  margin 0
+.footer-category::before,
+.prose .footer-category::before
+  content ':: '
+  color var(--accent-color)
+  font-family var(--font-mono)
 
-.toc ol ol
-  padding-left var(--sp-3)
+.footer-category:hover,
+.prose .footer-category:hover
+  color var(--text-main)
+  border-bottom 0
 
-.toc a
-  display block
-  padding var(--sp-1) var(--sp-2)
-  color var(--fg-subtle)
-  border-left 2px solid transparent
-  margin-left -2px
-  transition all var(--transition-base)
-  // keep long titles single-line with ellipsis
-  white-space nowrap
-  overflow hidden
-  text-overflow ellipsis
+.tag-fingerprint,
+.prose .tag-fingerprint
+  color var(--text-muted)
+  font-family var(--font-mono)
+  font-size 13px
+  border-bottom 0
+  transition color var(--transition-base), text-decoration-color var(--transition-base)
+  text-decoration underline
+  text-decoration-color transparent
+  text-underline-offset 0.18em
 
-.toc a:hover
-  color var(--fg)
+.tag-fingerprint:hover,
+.prose .tag-fingerprint:hover
+  color var(--accent-color)
+  border-bottom 0
+  text-decoration-color var(--accent-color)
 
-.toc a.toc-active
-  color var(--accent)
-  border-left-color var(--accent)
-
-// ---- Theme toggle ----
-.theme-toggle
-  background none
-  border none
-  color var(--fg-muted)
-  cursor pointer
-  padding 5px
+.chip
   display inline-flex
   align-items center
-  justify-content center
-  transition color 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)
-  flex-shrink 0
+  color var(--text-muted)
+  font-size 13px
+  line-height 1.35
 
-.theme-toggle:hover
-  color var(--fg)
-  transform rotate(45deg)
+.chip:hover
+  color var(--accent-color)
 
-.theme-toggle svg
-  width 1.2rem
-  height 1.2rem
+.dot
+  color var(--text-subtle)
 
-.theme-toggle .theme-icon-light, .theme-toggle .theme-icon-dark
-  display none
-
-// Light icon is the default (shown when data-theme is unset or light)
-.theme-toggle .theme-icon-light
-  display block
-
-html[data-theme='dark'] .theme-toggle .theme-icon-light
-  display none
-
-html[data-theme='dark'] .theme-toggle .theme-icon-dark
-  display block
-
-// ---- Post navigation (prev/next) ----
 .post-nav
-  margin-top var(--sp-12)
-  padding-top var(--sp-6)
-  border-top 1px solid var(--border)
+  margin-top 58px
+  padding-top 26px
+  border-top 1px solid var(--border-color)
   display grid
   grid-template-columns 1fr 1fr
-  gap var(--sp-4)
+  gap 24px
 
 .post-nav a
-  display block
-  padding var(--sp-4)
-  border 1px solid var(--border)
-  border-radius var(--radius-md)
-  transition all var(--transition-base)
+  color var(--text-main)
+  transition color var(--transition-base), transform var(--transition-base)
 
 .post-nav a:hover
-  border-color var(--accent)
-  color inherit
+  color var(--accent-color)
+  transform translateY(-2px)
 
 .post-nav .label
+  color var(--text-muted)
   font-size 12px
-  color var(--fg-muted)
-  margin-bottom var(--sp-1)
+  margin-bottom 6px
 
 .post-nav .post-nav-title
-  color var(--fg-heading)
-  font-weight 500
+  font-family var(--font-serif)
+  font-size 1.1rem
 
 .post-nav .next
   text-align right
 
 #gitalk-container
-  margin-top var(--sp-12)
-  padding-top var(--sp-6)
-  border-top 1px solid var(--border)
+  margin-top 52px
+  padding-top 26px
+  border-top 1px solid var(--border-color)

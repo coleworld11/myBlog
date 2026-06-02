@@ -1,65 +1,271 @@
-// layout — nav / main / footer skeleton
+// layout — asymmetric paper grid, ambient nav, footer
 
-// ---- Header: three-column centered nav ----
-.header-container
-  max-width var(--content-width)
-  margin 0 auto
-  padding 3rem var(--sp-6) 4rem
+.site-wrapper
+  position relative
+  min-height 100vh
   display flex
-  justify-content space-between
+  flex-direction column
+
+.ambient-nav
+  position fixed
+  top 0
+  left 0
+  right 0
+  z-index 100
+  height 72px
+  display block
+  padding 0 clamp(20px, 4vw, 56px)
+  color var(--text-main)
+  box-sizing border-box
+  isolation isolate
+  transition opacity var(--transition-slow), background-color var(--transition-base), backdrop-filter var(--transition-base), transform var(--transition-slow)
+
+.ambient-nav::before
+  content ''
+  position absolute
+  inset 0 0 -22px
+  z-index 0
+  opacity 0
+  pointer-events none
+  background linear-gradient(to bottom, var(--surface-color) 0%, var(--surface-color) 68%, transparent 100%)
+  backdrop-filter blur(8px)
+  transition opacity var(--transition-base)
+
+.ambient-nav.is-floating::before
+  opacity 1
+
+.ambient-nav.is-muted
+  opacity 0.16
+
+.ambient-nav.is-floating
+  background var(--surface-color)
+  backdrop-filter blur(8px)
+
+.nav-container
+  position relative
+  z-index 1
+  height 100%
+  display grid
+  grid-template-columns minmax(48px, 1fr) auto minmax(48px, 1fr)
   align-items center
+  gap clamp(24px, 4vw, 56px)
 
-// Left and right slots share equal width so the nav stays dead-centre
-.header-left-spacer,
-.header-right-controls
-  width 50px
+.nav-logo-wrapper
+  justify-self start
   display flex
+  align-items center
+  height 100%
 
-.header-right-controls
-  justify-content flex-end
+.avatar-logo-link
+  display block
+  padding 8px
+  margin-left -8px
+  transition transform 250ms cubic-bezier(0.16, 1, 0.3, 1)
 
-.main-nav
+.avatar-logo-link:hover
+  transform scale(1.04)
+
+.avatar-logo-link:hover .avatar-logo-img
+  border-color var(--accent-color)
+
+.avatar-logo-img
+  width 34px
+  height 34px
+  object-fit cover
+  border-radius 50%
+  border 1px solid var(--border-color)
+  background-color var(--code-bg)
+  filter grayscale(100%) contrast(1.05)
+  transition border-color 250ms ease, filter 250ms ease
+
+.nav-links
+  position relative
+  z-index 1
+  justify-self center
   display flex
-  gap 2.5rem
+  align-items center
+  gap clamp(24px, 4vw, 42px)
+  justify-content center
 
-.nav-item
-  color var(--fg-muted)
-  font-size 1rem
-  letter-spacing 0.02em
-  text-decoration none
-  transition color 0.3s ease
-  padding-bottom 4px
+.nav-link
+  color var(--text-muted)
+  font-family var(--font-sans)
+  font-size 0.9rem
+  letter-spacing 0.06em
+  line-height 1
+  padding 10px 0
+  position relative
 
-.nav-item:hover
-  color var(--fg)
+.nav-link::after
+  content ''
+  position absolute
+  left 0
+  right 0
+  bottom 2px
+  height 1px
+  background var(--border-color)
+  transform scaleX(0)
+  transform-origin left
+  transition transform var(--transition-base)
 
-.nav-item.active
-  color var(--fg-heading)
-  font-weight 600
-  border-bottom 2px solid var(--border-strong)
+.nav-link:hover,
+.nav-link.is-active
+  color var(--text-main)
 
-.main
+.nav-link:hover::after,
+.nav-link.is-active::after
+  transform scaleX(1)
+
+.theme-toggle
+  position relative
+  z-index 1
+  justify-self end
+  width 32px
+  height 32px
+  border-radius 50%
+  color var(--text-muted)
+  border 1px solid transparent
+  display inline-flex
+  align-items center
+  justify-content center
+  transition color var(--transition-base), border-color var(--transition-base), transform var(--transition-base)
+
+.theme-toggle:hover
+  color var(--accent-color)
+  border-color var(--border-color)
+  transform rotate(18deg)
+
+.theme-toggle-mark
+  width 12px
+  height 12px
+  border 1px solid currentColor
+  border-radius 50%
+  box-shadow inset -4px -2px 0 currentColor
+
+html[data-theme='dark'] .theme-toggle-mark
+  box-shadow inset 4px 2px 0 currentColor
+
+.main-container
   flex 1
   width 100%
-  padding var(--sp-2) var(--sp-6) 0
+  padding clamp(88px, 10vh, 120px) clamp(20px, 4vw, 56px) 0
+
+.paper-grid
+  display grid
+  grid-template-columns var(--rail-width) minmax(0, var(--content-width)) var(--void-width)
+  gap clamp(24px, 4vw, 56px)
+  align-items start
+  width 100%
+  max-width 1440px
+  margin 0 auto
+
+.timeline-page
+  display grid
+  grid-template-columns var(--rail-width) minmax(0, 800px) minmax(180px, 1fr)
+  gap clamp(18px, 2.8vw, 40px)
+  align-items start
+  width 100%
+  max-width 1320px
+  margin 0 auto
+
+.timeline-page .reading-column
+  grid-column 2 / 3
+  max-width none
+
+.post-paper-grid,
+.page-paper-grid
+  grid-template-columns var(--rail-width) minmax(0, 800px) minmax(180px, 1fr)
+  gap clamp(18px, 2.8vw, 40px)
+  max-width 1320px
+  margin 0 auto
+
+.post-paper-grid .reading-column,
+.page-paper-grid .reading-column
+  grid-column 2 / 3
+  max-width none
+
+.reading-column
+  min-width 0
+  width 100%
+  max-width var(--content-width)
+
+.coordinate-rail
+  min-width 0
+  color var(--text-muted)
+  align-self stretch
+  min-height 100%
+
+.coordinate-sticky
+  position sticky
+  top 112px
+  display flex
+  flex-direction column
+  gap 10px
+  align-items flex-start
+  font-family var(--font-mono)
+  font-size 11px
+  letter-spacing 0.08em
+  text-transform uppercase
+
+.coordinate-symbol
+  color var(--text-main)
+  display inline-flex
+  align-items center
+  min-width 3.6ch
+  font-size 1.08rem
+  font-weight 600
+  line-height 1
+  letter-spacing 0.06em
+  opacity 0.92
+  font-variant-numeric tabular-nums
+  white-space nowrap
+
+.coordinate-progress
+  color var(--accent-color)
+  font-variant-numeric tabular-nums
+  font-size 11px
+
+.right-void
+  min-width 0
+  min-height 40vh
+  align-self stretch
+
+.right-void-inner
+  position sticky
+  top 102px
+  min-height 20vh
+  color var(--text-subtle)
+  font-size 12px
+  line-height 1.6
+  transition opacity var(--transition-slow), transform var(--transition-slow)
+
+body.has-expanded-post .coordinate-rail,
+body.has-expanded-post .right-void
+  cursor pointer
+
+body.drawer-open .right-void
+  opacity 0
+  pointer-events none
+
+body.drawer-open .right-void-inner
+  transform translateX(16px)
 
 .site-footer
-  margin-top var(--sp-20)
-  border-top 1px solid var(--border)
-  padding var(--sp-10) var(--sp-6)
-  text-align center
-  font-size 13px
-  color var(--fg-subtle)
+  margin clamp(72px, 12vh, 128px) auto 0
+  width calc(100% - 40px)
+  max-width var(--content-width)
+  border-top 1px solid var(--border-color)
+  padding 28px 0 44px
+  text-align left
+  font-size 12px
+  color var(--text-muted)
   line-height 1.8
 
 .site-footer a
-  color var(--fg-muted)
+  color var(--text-main)
 
 .site-footer a:hover
-  color var(--accent)
+  color var(--accent-color)
 
-.site-footer .footer-row
-  margin-bottom var(--sp-2)
-
-.site-footer .footer-row:last-child
-  margin-bottom 0
+.site-footer .footer-row + .footer-row
+  margin-top 6px

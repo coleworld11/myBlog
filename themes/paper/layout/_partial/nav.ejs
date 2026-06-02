@@ -1,0 +1,27 @@
+<%
+  var menu = theme.menu || theme.Menu || {};
+  var ambientNav = !theme.paper_effects || theme.paper_effects.ambient_nav !== false;
+%>
+<header class="ambient-nav <%= ambientNav ? 'is-enabled' : '' %>" data-ambient-nav="<%= ambientNav ? 'true' : 'false' %>">
+  <div class="nav-container">
+    <div class="nav-logo-wrapper">
+      <a href="<%- url_for('/') %>" class="avatar-logo-link" title="返回首页" aria-label="<%= config.title %>">
+        <img src="<%- url_for(theme.avatar || '/imgs/favicon.ico') %>" alt="<%= config.title %>" class="avatar-logo-img">
+      </a>
+    </div>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+      <% for (var label in menu) { %>
+        <% var href = menu[label]; %>
+        <% var normalized = url_for(href); %>
+        <% var pagePath = page.path ? ('/' + page.path) : '/'; %>
+        <% var isActive = (href === '/' && is_home && is_home()) || (href !== '/' && pagePath.indexOf(href) === 0); %>
+        <a class="nav-link <%= isActive ? 'is-active' : '' %>" href="<%- normalized %>"><%= label %></a>
+      <% } %>
+    </nav>
+
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="切换主题" title="切换主题">
+      <span class="theme-toggle-mark" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>

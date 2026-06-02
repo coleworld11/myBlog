@@ -1,6 +1,12 @@
-<% var hasToc = page.content && /<h[2-4]/.test(page.content); %>
-<div class="post-layout <%= hasToc ? 'has-toc' : '' %>">
-  <article class="post">
+<section class="paper-grid post-paper-grid">
+  <aside class="coordinate-rail" aria-hidden="true">
+    <div class="coordinate-sticky">
+      <span class="coordinate-symbol">READ</span>
+      <span class="coordinate-progress" data-read-progress>00</span>
+    </div>
+  </aside>
+
+  <article class="post reading-column">
     <header class="post-header">
       <h1 class="post-title"><%= page.title %></h1>
       <div class="post-meta">
@@ -21,8 +27,26 @@
         <% } %>
       </div>
     </header>
-    <div class="prose">
+    <div class="prose post-content" data-post-content>
       <%- page.content %>
+      <% if ((page.categories && page.categories.length) || (page.tags && page.tags.length)) { %>
+        <footer class="post-meta-footer" aria-label="文章分类与标签">
+          <% if (page.categories && page.categories.length) { %>
+            <div class="footer-meta-group footer-categories">
+              <% page.categories.each(function (cat) { %>
+                <a class="footer-category" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+              <% }) %>
+            </div>
+          <% } %>
+          <% if (page.tags && page.tags.length) { %>
+            <div class="footer-meta-group footer-tags">
+              <% page.tags.each(function (tag) { %>
+                <a class="tag-fingerprint" href="<%- url_for(tag.path) %>" data-tag-filter="<%= tag.name %>">#<%= tag.name %></a>
+              <% }) %>
+            </div>
+          <% } %>
+        </footer>
+      <% } %>
     </div>
     <% if (page.prev || page.next) { %>
       <nav class="post-nav">
@@ -44,9 +68,12 @@
         <% } %>
       </nav>
     <% } %>
-    <% if (config.Gitalk && config.Gitalk.enable) { %>
+    <% if ((theme.gitalk && theme.gitalk.enable) || (config.Gitalk && config.Gitalk.enable)) { %>
       <div id="gitalk-container"></div>
     <% } %>
   </article>
-  <%- partial('_partial/toc') %>
-</div>
+
+  <aside class="right-void">
+    <div class="right-void-inner"></div>
+  </aside>
+</section>

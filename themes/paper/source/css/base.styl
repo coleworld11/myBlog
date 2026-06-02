@@ -7,23 +7,38 @@ html
   font-family var(--font-sans)
   font-size 16px
   line-height var(--lh-normal)
-  color var(--fg)
-  background var(--bg)
+  color var(--text-main)
+  background var(--bg-color)
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   text-rendering optimizeLegibility
+  scroll-behavior smooth
 
 body
   margin 0
   min-height 100vh
-  display flex
-  flex-direction column
   font-feature-settings 'kern' 1, 'liga' 1, 'calt' 1
   transition background-color var(--transition-base), color var(--transition-base)
+  position relative
+  overflow-x hidden
+
+body::before
+  content ''
+  position fixed
+  inset 0
+  opacity 0.035
+  background-image url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.75'/%3E%3C/svg%3E")
+  background-size 200px 200px
+  pointer-events none
+  z-index 999
+  transform translateZ(0)
+
+body.no-grain::before
+  display none
 
 ::selection
   background var(--selection-bg)
-  color var(--fg-heading)
+  color var(--text-heading)
 
 a
   color inherit
@@ -31,17 +46,24 @@ a
   transition color var(--transition-base)
 
 a:hover
-  color var(--accent)
+  color var(--accent-color)
+
+a:focus-visible,
+button:focus-visible
+  outline 2px solid var(--accent-color)
+  outline-offset 4px
 
 h1, h2, h3, h4, h5, h6
-  color var(--fg-heading)
+  color var(--text-heading)
   font-weight 700
   line-height var(--lh-tight)
   margin 0
+  text-wrap pretty
 
 h1
   font-size 2.25rem
-  letter-spacing -0.02em
+  font-family var(--font-serif)
+  letter-spacing 0
 
 h2
   font-size 1.5rem
@@ -51,6 +73,7 @@ h3
 
 p
   margin 0
+  text-wrap pretty
 
 img
   max-width 100%
@@ -69,7 +92,7 @@ button
 hr
   border 0
   height 1px
-  background linear-gradient(to right, rgba(0,0,0,0.06), rgba(0,0,0,0))
+  background linear-gradient(to right, var(--border-color), transparent)
   margin var(--sp-8) 0
 
 input, textarea

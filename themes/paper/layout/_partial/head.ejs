@@ -1,4 +1,10 @@
 <head>
+  <%
+    var gitalkConfig = theme.gitalk || config.Gitalk || {};
+    var gitalkEnabled = !!gitalkConfig.enable;
+    var gitalkClientId = gitalkConfig.client_id || gitalkConfig.clientID || '';
+    var gitalkClientSecret = gitalkConfig.client_secret || gitalkConfig.clientSecret || '';
+  %>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
@@ -30,7 +36,7 @@
       } catch (e) {}
     })();
   </script>
-  <% if (config.Gitalk && config.Gitalk.enable) { %>
+  <% if (gitalkEnabled) { %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
     <script>
@@ -38,11 +44,11 @@
         var el = document.getElementById('gitalk-container');
         if (!el) return;
         var gitalk = new Gitalk({
-          clientID: '<%= config.Gitalk.clientID %>',
-          clientSecret: '<%= config.Gitalk.clientSecret %>',
-          repo: '<%= config.Gitalk.repo %>',
-          owner: '<%= config.Gitalk.owner %>',
-          admin: ['<%= config.Gitalk.admin %>'],
+          clientID: '<%= gitalkClientId %>',
+          clientSecret: '<%= gitalkClientSecret %>',
+          repo: '<%= gitalkConfig.repo || '' %>',
+          owner: '<%= gitalkConfig.owner || '' %>',
+          admin: ['<%= gitalkConfig.admin || '' %>'],
           id: location.pathname,
           distractionFreeMode: false
         });

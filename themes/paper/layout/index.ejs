@@ -1,8 +1,104 @@
-<div class="feed">
-  <div class="post-list">
-    <% page.posts.each(function (item) { %>
-      <%- partial('_partial/article', { item: item }) %>
-    <% }) %>
+<%
+  var theaterMode = !theme.paper_effects || theme.paper_effects.theater_mode !== false;
+  var eagerPosts = theme.index && theme.index.eager_posts ? Number(theme.index.eager_posts) : 10;
+  var initialCoordinateYear = '·';
+  var previewed = 0;
+  page.posts.each(function (post) {
+    if (previewed >= eagerPosts || initialCoordinateYear !== '·') return;
+    previewed += 1;
+    if (post.date) {
+      initialCoordinateYear = post.date.format('YYYY');
+    }
+  });
+  var currentYear = '';
+  var rendered = 0;
+%>
+<section class="timeline-page" data-theater-mode="<%= theaterMode ? 'true' : 'false' %>">
+  <aside class="coordinate-rail" aria-hidden="true">
+    <div class="coordinate-sticky">
+      <span class="coordinate-symbol" data-coordinate-symbol data-default-symbol="<%= initialCoordinateYear %>"><%= initialCoordinateYear %></span>
+    </div>
+  </aside>
+
+  <div class="reading-column">
+    <div class="timeline-filter" hidden aria-live="polite">
+      <span class="filter-kicker">筛选中</span>
+      <strong class="filter-name"></strong>
+      <button class="filter-clear" type="button" aria-label="清除标签筛选">清除 ×</button>
+    </div>
+
+    <div class="timeline-stream">
+      <% page.posts.each(function (post) { %>
+        <% if (rendered < eagerPosts) { %>
+          <%
+            rendered += 1;
+            var postYear = post.date ? post.date.format('YYYY') : '';
+            var postId = post.slug || post._id || ('post-' + rendered);
+            var categories = [];
+            var tags = [];
+
+            if (post.categories && post.categories.length) {
+              post.categories.each(function (cat) { categories.push(cat); });
+            }
+            if (post.tags && post.tags.length) {
+              post.tags.each(function (tag) { tags.push(tag); });
+            }
+
+            var category = categories.length ? categories[0].name : '随笔';
+            var categoryPath = categories.length ? categories[0].path : '';
+            var tagNames = JSON.stringify(tags.map(function (tag) { return tag.name; }));
+          %>
+          <% if (postYear !== currentYear) { %>
+            <% currentYear = postYear; %>
+            <div class="timeline-year-mark" data-year="<%= currentYear %>">
+              <span><%= currentYear %></span>
+            </div>
+          <% } %>
+
+          <article
+            class="timeline-item"
+            id="item-<%= postId %>"
+            data-post-url="<%- url_for(post.path) %>"
+            data-post-title="<%= post.title %>"
+            data-post-year="<%= postYear %>"
+            data-tags="<%= tagNames %>"
+            data-category="<%= category %>">
+            <div class="item-meta">
+              <% if (post.date) { %>
+                <time class="item-date" datetime="<%= post.date.toISOString() %>"><%= post.date.format('MM.DD') %></time>
+              <% } %>
+              <% if (categoryPath) { %>
+                <a class="item-category" href="<%- url_for(categoryPath) %>">:: <%= category %></a>
+              <% } else { %>
+                <span class="item-category">:: <%= category %></span>
+              <% } %>
+            </div>
+
+            <h2 class="item-title">
+              <a href="<%- url_for(post.path) %>" <%- theaterMode ? ('data-expand-post="' + postId + '"') : '' %>><%= post.title %></a>
+            </h2>
+
+            <% if (post.excerpt) { %>
+              <div class="item-excerpt prose"><%- post.excerpt %></div>
+            <% } %>
+
+            <% if (tags.length) { %>
+              <div class="item-tags" aria-label="标签">
+                <% tags.forEach(function (tag) { %>
+                  <a href="<%- url_for(tag.path) %>" data-tag-filter="<%= tag.name %>">#<%= tag.name %></a>
+                <% }) %>
+              </div>
+            <% } %>
+
+            <div class="item-body-expanded" id="content-<%= postId %>" hidden></div>
+          </article>
+        <% } %>
+      <% }) %>
+    </div>
+
+    <%- partial('_partial/pagination') %>
   </div>
-  <%- partial('_partial/pagination') %>
-</div>
+  <aside class="right-void" aria-live="polite">
+    <div class="right-void-inner"></div>
+  </aside>
+</section>
