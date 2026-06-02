@@ -9,3 +9,8 @@ _multiconfig.yml
 .claude
 .codex
 docs/
+
+# SSH 私钥 / 密钥 — 严禁提交
+id_ed25519*
+id_rsa*
+*.pem
