@@ -13,7 +13,7 @@ timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://mz-789.github.io/myBlog
+url: https://coleworld11.github.io/myBlog
 root: /myBlog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -100,7 +100,7 @@ theme: paper
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/mz-789/myBlog.git
+  repo: https://github.com/coleworld11/myBlog.git
   branch: main
 # Gitalk
 Gitalk:
