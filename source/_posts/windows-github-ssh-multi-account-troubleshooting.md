@@ -1,38 +1,24 @@
 ---
-title: Windows 中文用户名下 GitHub SSH 多账号排障笔记
+title: GitHub SSH 多账号排障笔记
 date: 2026-06-08 15:30:00
 categories: [工具]
 tags: [Git, SSH, GitHub, Windows]
 ---
 
-## 这次解决的问题
+Windows 多账号 SSH 认证失败时，问题常被误判为路径或 `known_hosts`。这里记录一次从配置命中、私钥权限到 GitHub 公钥指纹的完整排查。
 
-这次排查的起点是：Windows 用户名包含中文，在使用 GitHub SSH 仓库时偶尔出现找不到密钥、认证失败等问题。后来问题进一步扩展为：本机有多个 GitHub 账号和多把 SSH key，大号能认证成功，小号 clone 仓库时却提示：
+<!-- more -->
+
+## 问题现象
+
+本机配置了多个 GitHub 账号和多把 SSH key。主账号认证正常，但副账号 clone 仓库时报：
 
 ```text
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
 ```
 
-最终结论是：中文用户目录确实容易让部分 Git/SSH/IDE 组合处理路径不稳定，但这次小号失败的直接原因不是 `known_hosts`，也不是 `HostName github.com`，而是小号 GitHub 账号里登记的公钥和本地正在使用的小号私钥不匹配。重新把当前 `.pub` 公钥添加到小号 GitHub 后，认证恢复正常。
-
-## 最终推荐方案
-
-在 Windows 中文用户名环境下，最稳妥的方案是把 SSH key、SSH config 和 known_hosts 都放到纯英文路径，例如：
-
-```text
-E:\ssh\.ssh
-```
-
-然后让 Git 固定使用 Windows 自带的 OpenSSH 和这份 SSH config：
-
-```powershell
-git config --global core.sshCommand "C:/Windows/System32/OpenSSH/ssh.exe -F E:/ssh/.ssh/config"
-```
-
-这样 `git clone`、`git pull`、`git push` 都会走固定的英文路径配置，而不是继续依赖 `C:\Users\中文用户名\.ssh`。
-
-<!-- more -->
+这类错误不能只看最后一行，需要顺着本机 SSH 配置、私钥权限、GitHub 公钥登记情况逐步收敛。
 
 ## 一、先把路径问题和 Git 配置固定下来
 
@@ -83,7 +69,7 @@ github.com         SSH 要连接的真实主机
 username/repo      仓库拥有者/仓库名
 ```
 
-问题在于，GitHub 页面只知道真实主机是 `github.com`，它不知道本机 SSH config 里为不同账号设置了哪些别名。多账号场景下，不能让所有仓库都使用 `git@github.com:...`，否则它只会命中 `Host github.com` 或默认配置，很容易走到大号 key。
+问题在于，GitHub 页面只知道真实主机是 `github.com`，它不知道本机 SSH config 里为不同账号设置了哪些别名。多账号场景下，不能让所有仓库都使用 `git@github.com:...`，否则它只会命中 `Host github.com` 或默认配置，很容易走到主账号 key。
 
 正确做法是在 `E:\ssh\.ssh\config` 里给账号设置不同的 `Host` 别名：
 
@@ -107,7 +93,7 @@ Host github-small
   UserKnownHostsFile E:/ssh/.ssh/known_hosts
 ```
 
-然后小号仓库 clone 地址要把 `github.com` 替换成本机配置里的小号 `Host`：
+然后副账号仓库 clone 地址要把 `github.com` 替换成本机配置里的副账号 `Host`：
 
 ```powershell
 git clone git@github-small:username/repo.git
@@ -116,7 +102,7 @@ git clone git@github-small:username/repo.git
 不要直接使用：
 
 ```powershell
-git clone git@github.com:earendil-works/pi.git
+git clone git@github.com:owner/repo.git
 ```
 
 `HostName github.com` 保持一样是正常的，因为真实连接的服务器都是 GitHub。真正决定使用哪把 key 的，是命令或 remote URL 里的 `Host` 别名。
@@ -142,12 +128,12 @@ userknownhostsfile E:/ssh/.ssh/known_hosts
 
 这一步能确认：
 
-- `Host` 是否匹配到了小号配置。
-- `IdentityFile` 是否是小号私钥。
+- `Host` 是否匹配到了副账号配置。
+- `IdentityFile` 是否是副账号私钥。
 - 是否还在使用 `~/.ssh/...` 这种会回到中文用户目录的路径。
 - `UserKnownHostsFile` 是否已经转移到英文路径。
 
-如果 `identityfile` 仍然显示大号 key，要检查 config 中是否有通用规则干扰，例如：
+如果 `identityfile` 仍然显示主账号 key，要检查 config 中是否有通用规则干扰，例如：
 
 ```sshconfig
 Host *
@@ -170,7 +156,7 @@ userknownhostsfile E:/ssh/.ssh/known_hosts
 load_hostkeys: fopen __PROGRAMDATA__\ssh/ssh_known_hosts: No such file or directory
 ```
 
-这些通常不是导致 GitHub 账号错乱的原因。`known_hosts` 记录的是远程主机指纹，用来确认连接的服务器是不是可信的 `github.com`。它不保存 GitHub 账号身份，也不决定使用大号还是小号。
+这些通常不是导致 GitHub 账号错乱的原因。`known_hosts` 记录的是远程主机指纹，用来确认连接的服务器是不是可信的 `github.com`。它不保存 GitHub 账号身份，也不决定使用主账号还是副账号。
 
 账号身份由下面这个配置决定：
 
@@ -182,7 +168,7 @@ IdentityFile E:/ssh/.ssh/github_small_ed25519
 
 ## 五、私钥权限过宽会导致 SSH 直接忽略 key
 
-排查大号时出现过下面的警告：
+排查主账号时出现过下面的警告：
 
 ```text
 It is required that your private key files are NOT accessible by others.
@@ -219,15 +205,15 @@ icacls "E:\ssh\.ssh\github_small_ed25519" /grant:r "*${me}:(R,W)" "SYSTEM:(F)" "
 - 不要给 `Everyone` 设置"拒绝"。Windows 的"拒绝"优先级很高，可能把当前用户也挡住。
 - 如果执行 `/inheritance:r` 后还没成功给自己授权，可能会暂时失去访问权，需要用管理员 PowerShell 修回来。
 
-## 六、用 `-vvvT` 看 SSH 是否真的提交了小号 key
+## 六、用 `-vvvT` 看 SSH 是否真的提交了副账号 key
 
-当小号仍然报：
+当副账号仍然报：
 
 ```text
 git@github.com: Permission denied (publickey).
 ```
 
-不要只看最后一行。需要用详细日志确认 SSH 有没有尝试小号 key：
+不要只看最后一行。需要用详细日志确认 SSH 有没有尝试副账号 key：
 
 ```powershell
 C:/Windows/System32/OpenSSH/ssh.exe -vvvT -F E:/ssh/.ssh/config github-small
@@ -249,7 +235,7 @@ debug1: Server accepts key: E:/ssh/.ssh/github_small_ed25519
 - 只有 `Offering public key` 但没有 `Server accepts key`：说明 GitHub 不认识这把公钥，或者公钥加错账号。
 - 连 `Offering public key` 都没有：优先检查 `IdentityFile` 路径、私钥权限、私钥格式或配置是否禁用了公钥认证。
 
-这次排查中，小号配置最终能解析到正确私钥，但 GitHub 仍然拒绝，于是问题收束到"本地 key 和 GitHub 小号登记的 key 是否一致"。
+这次排查中，副账号配置最终能解析到正确私钥，但 GitHub 仍然拒绝，于是问题收束到"本地 key 和 GitHub 副账号登记的 key 是否一致"。
 
 ## 七、用 SHA256 指纹确认本地 key 和 GitHub 是否匹配
 
@@ -262,15 +248,15 @@ ssh-keygen -lf E:/ssh/.ssh/github_small_ed25519.pub
 
 如果它们是一对，两个命令输出的 `SHA256:...` 应完全一致。
 
-然后去 GitHub 小号页面核对：
+然后去 GitHub 副账号页面核对：
 
 ```text
 GitHub -> Settings -> SSH and GPG keys
 ```
 
-这次最终发现：本地私钥和 `.pub` 是一对，但它们的 SHA256 指纹和小号 GitHub SSH Keys 页面里的指纹不一样。也就是说，小号 GitHub 中登记的不是当前正在使用的这把本地 key。
+这次最终发现：本地私钥和 `.pub` 是一对，但它们的 SHA256 指纹和副账号 GitHub SSH Keys 页面里的指纹不一样。也就是说，副账号 GitHub 中登记的不是当前正在使用的这把本地 key。
 
-修复方式是把当前 `.pub` 公钥重新添加到小号 GitHub。
+修复方式是把当前 `.pub` 公钥重新添加到副账号 GitHub。
 
 查看公钥内容：
 
@@ -287,23 +273,17 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... your@email.com
 只复制这一整行到 GitHub：
 
 ```text
-GitHub 小号 -> Settings -> SSH and GPG keys -> New SSH key
+GitHub 副账号 -> Settings -> SSH and GPG keys -> New SSH key
 Title: Windows E ssh small
 Key type: Authentication Key
 Key: 粘贴 .pub 文件的一整行内容
 ```
 
-不要复制私钥内容。私钥第一行通常是：
-
-```text
------BEGIN OPENSSH PRIVATE KEY-----
-```
-
-这类内容绝不能上传或粘贴给任何人。
+不要复制私钥内容。私钥是本机机密文件，不能上传到 GitHub，也不能粘贴到聊天、文档或网页表单里。
 
 ## 八、最终验证流程
 
-添加小号公钥后，先测试 SSH 账号身份：
+添加副账号公钥后，先测试 SSH 账号身份：
 
 ```powershell
 C:/Windows/System32/OpenSSH/ssh.exe -F E:/ssh/.ssh/config -T github-main
@@ -318,17 +298,17 @@ Hi 对应用户名! You've successfully authenticated...
 
 注意：GitHub 不提供 SSH shell，所以调试日志里出现 `Exit status 1` 不一定代表认证失败。更重要的是有没有出现 `Hi 用户名! You've successfully authenticated...`。
 
-小号测试成功后再 clone：
+副账号测试成功后再 clone：
 
 ```powershell
 git clone git@github-small:username/repo.git
 ```
 
-如果 clone 仍失败，但 `ssh -T github-small` 已显示小号认证成功，就继续检查仓库权限：
+如果 clone 仍失败，但 `ssh -T github-small` 已显示副账号认证成功，就继续检查仓库权限：
 
 - 仓库 owner/repo 是否写对。
-- 小号是否有访问这个仓库的权限。
-- remote URL 是否仍然误用了 `github.com` 或大号 `Host`。
+- 副账号是否有访问这个仓库的权限。
+- remote URL 是否仍然误用了 `github.com` 或主账号 `Host`。
 
 ## 快速排查清单
 
@@ -344,7 +324,7 @@ git config --show-origin --get-all core.sshCommand
 C:/Windows/System32/OpenSSH/ssh.exe -F E:/ssh/.ssh/config
 ```
 
-### 2. 小号 Host 是否解析到小号私钥
+### 2. 副账号 Host 是否解析到副账号私钥
 
 ```powershell
 C:/Windows/System32/OpenSSH/ssh.exe -F E:/ssh/.ssh/config -G github-small | Select-String "user|hostname|identityfile|identitiesonly|userknownhostsfile"
@@ -386,7 +366,7 @@ Server accepts key
 ssh-keygen -lf E:/ssh/.ssh/github_small_ed25519.pub
 ```
 
-把输出的 `SHA256:...` 和 GitHub 小号 SSH key 页面核对。
+把输出的 `SHA256:...` 和 GitHub 副账号 SSH key 页面核对。
 
 ## 这次真正要记住什么
 
