@@ -49,15 +49,34 @@
   var progressEl = document.querySelector('[data-read-progress]');
   var progressTicking = false;
   var coordinateSymbol = document.querySelector('[data-coordinate-symbol]');
+  var returnRail = document.querySelector('[data-return-rail]');
   var timelineItems = Array.prototype.slice.call(document.querySelectorAll('.timeline-item[data-post-year]'));
   var timelineYearMarks = Array.prototype.slice.call(document.querySelectorAll('.timeline-year-mark[data-year]'));
 
   function updateProgress() {
     if (!progressEl) return;
-    var doc = document.documentElement;
-    var max = Math.max(doc.scrollHeight - window.innerHeight, 1);
-    var percent = Math.min(99, Math.max(0, Math.round((window.scrollY / max) * 100)));
-    progressEl.textContent = String(percent).padStart(2, '0');
+    var postContent = document.querySelector('[data-post-content]');
+
+    if (postContent) {
+      // 文章详情页：基于文章内容区域计算
+      var contentRect = postContent.getBoundingClientRect();
+      var contentTop = window.scrollY + contentRect.top;
+      var contentHeight = contentRect.height;
+      var viewportHeight = window.innerHeight;
+
+      // 当文章顶部刚进入视口时是 0%，当文章底部刚离开视口时是 100%
+      var scrolledIntoContent = Math.max(0, window.scrollY - contentTop);
+      var readableRange = Math.max(1, contentHeight - viewportHeight);
+      var percent = Math.min(100, Math.max(0, Math.round((scrolledIntoContent / readableRange) * 100)));
+
+      progressEl.textContent = String(percent).padStart(2, '0');
+    } else {
+      // 其他页面：使用整页计算
+      var doc = document.documentElement;
+      var max = Math.max(doc.scrollHeight - window.innerHeight, 1);
+      var percent = Math.max(0, Math.round((window.scrollY / max) * 100));
+      progressEl.textContent = String(percent).padStart(2, '0');
+    }
   }
 
   function getCoordinateScopeItems() {
@@ -128,6 +147,13 @@
     window.scrollTo({ top: Math.max(target, 0), behavior: 'smooth' });
   }
 
+  function syncReturnRailState() {
+    if (!returnRail) return;
+    var hasActivePost = !!document.querySelector('.timeline-item.is-active');
+    returnRail.tabIndex = hasActivePost ? 0 : -1;
+    returnRail.setAttribute('aria-disabled', hasActivePost ? 'false' : 'true');
+  }
+
   function clearActiveItems(except) {
     document.querySelectorAll('.timeline-item.is-active').forEach(function (item) {
       if (item === except) return;
@@ -143,6 +169,7 @@
     if (!document.querySelector('.timeline-item.is-active')) {
       document.body.classList.remove('has-expanded-post');
     }
+    syncReturnRailState();
     if (shouldScroll !== false) windowScrollToElement(article, 120);
     return true;
   }
@@ -169,6 +196,14 @@
     if (collapseCurrentArticle(true)) event.preventDefault();
   });
 
+  if (returnRail) {
+    syncReturnRailState();
+    returnRail.addEventListener('keydown', function (event) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      if (collapseCurrentArticle(true)) event.preventDefault();
+    });
+  }
+
   document.addEventListener('click', function (event) {
     var trigger = event.target.closest('[data-expand-post]');
     if (!trigger) return;
@@ -194,6 +229,7 @@
       content.hidden = false;
       article.classList.add('is-active');
       document.body.classList.add('has-expanded-post');
+      syncReturnRailState();
       windowScrollToElement(article, 104);
     }
 
@@ -404,6 +440,7 @@
     });
   }
   document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && collapseCurrentArticle(true)) return;
     if (event.key === 'Escape') setDrawer(false);
   });
 })();

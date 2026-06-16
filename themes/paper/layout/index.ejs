@@ -14,9 +14,10 @@
   var rendered = 0;
 %>
 <section class="timeline-page" data-theater-mode="<%= theaterMode ? 'true' : 'false' %>">
-  <aside class="coordinate-rail" aria-hidden="true">
+  <aside class="coordinate-rail" data-return-rail aria-label="收起文章，返回列表当前位置">
     <div class="coordinate-sticky">
       <span class="coordinate-symbol" data-coordinate-symbol data-default-symbol="<%= initialCoordinateYear %>"><%= initialCoordinateYear %></span>
+      <span class="coordinate-return-hint" aria-hidden="true">LIST</span>
     </div>
   </aside>
 

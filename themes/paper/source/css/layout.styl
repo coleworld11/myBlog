@@ -207,6 +207,17 @@ html[data-theme='dark'] .theme-toggle-mark
   letter-spacing 0.08em
   text-transform uppercase
 
+.coordinate-return-hint
+  display inline-flex
+  align-items center
+  color var(--text-subtle)
+  font-size 10px
+  line-height 1
+  letter-spacing 0.12em
+  opacity 0
+  transform translateY(-4px)
+  transition opacity var(--transition-base), transform var(--transition-base), color var(--transition-base)
+
 .coordinate-symbol
   color var(--text-main)
   display inline-flex
@@ -242,6 +253,16 @@ html[data-theme='dark'] .theme-toggle-mark
 body.has-expanded-post .coordinate-rail,
 body.has-expanded-post .right-void
   cursor pointer
+
+body.has-expanded-post .coordinate-return-hint
+  opacity 1
+  transform translateY(0)
+
+body.has-expanded-post .coordinate-rail:hover .coordinate-symbol
+  color var(--accent-color)
+
+body.has-expanded-post .coordinate-rail:hover .coordinate-return-hint
+  color var(--text-muted)
 
 body.drawer-open .right-void
   opacity 0

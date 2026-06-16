@@ -1,3 +1,6 @@
+<%
+  var postBodyContent = page.excerpt ? page.more : page.content;
+%>
 <section class="paper-grid post-paper-grid">
   <aside class="coordinate-rail" aria-hidden="true">
     <div class="coordinate-sticky">
@@ -26,9 +29,14 @@
           <% }) %>
         <% } %>
       </div>
+      <% if (page.excerpt && page.more) { %>
+        <div class="post-deck prose" data-post-excerpt>
+          <%- page.excerpt %>
+        </div>
+      <% } %>
     </header>
     <div class="prose post-content" data-post-content>
-      <%- page.content %>
+      <%- postBodyContent %>
       <% if ((page.categories && page.categories.length) || (page.tags && page.tags.length)) { %>
         <footer class="post-meta-footer" aria-label="文章分类与标签">
           <% if (page.categories && page.categories.length) { %>

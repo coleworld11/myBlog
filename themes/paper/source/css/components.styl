@@ -186,9 +186,11 @@ html[data-theme='dark'] .timeline-year-mark span
 
 .timeline-item.is-active .item-title
   max-width 800px
-  font-size 2.45rem
-  line-height 1.18
+  font-size clamp(1.58rem, 2.4vw, 1.92rem)
+  line-height 1.32
   text-wrap balance
+  word-break keep-all
+  overflow-wrap break-word
 
 .timeline-stream .timeline-item
   .item-meta
@@ -593,11 +595,14 @@ html[data-theme='dark'] .origami-drawer::before
 
 .post-title
   font-family var(--font-serif)
-  font-size clamp(2.25rem, 5vw, 4.2rem)
+  font-size clamp(1.92rem, 4vw, 2.85rem)
   font-weight 500
   letter-spacing 0
-  line-height 1.08
+  line-height 1.24
   margin 0 0 18px
+  text-wrap balance
+  word-break keep-all
+  overflow-wrap break-word
 
 .post-meta
   display flex
@@ -610,6 +615,16 @@ html[data-theme='dark'] .origami-drawer::before
 .post-meta time
   font-family var(--font-mono)
   font-variant-numeric tabular-nums
+
+.post-deck
+  max-width 62ch
+  margin-top 22px
+  color var(--text-muted)
+  font-size 1.02rem
+  line-height 1.82
+
+.post-deck.prose > * + *
+  margin-top 12px
 
 .post-meta-footer,
 .prose .post-meta-footer
